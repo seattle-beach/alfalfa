@@ -61,12 +61,12 @@
     - name: Install Homebrew casks
       homebrew_cask: name={{ item }}
       with_items:
+        - flycut
         - font-hack
         - font-source-code-pro
         - google-chrome
         - intellij-idea
         - iterm2
-        - java
         - macvim
         - rubymine
         - shiftit
@@ -109,7 +109,9 @@
         repo: https://github.com/pivotal/pivotal_ide_prefs.git
         dest: ~/workspace/pivotal_ide_prefs
     - name: Install Pivotal IDE prefs
-      command: ~/workspace/pivotal_ide_prefs/cli/bin/ide_prefs --ide={{ item }} install
+      command: ./bin/ide_prefs --ide={{ item }} install
+      args:
+        chdir: ~/workspace/pivotal_ide_prefs/cli
       with_items:
         - intellij
         - rubymine
