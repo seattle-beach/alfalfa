@@ -39,7 +39,7 @@
       file: src=~/.alfalfa/modules/{{ item.key }} dest={{ item.value }} state=link
       with_dict:
         .bash_it: ~/.bash_it
-        .vim-config: ~/.vim
+        vim-config: ~/.vim
 
     - name: Tap Homebrew repositories
       homebrew_tap: tap={{ item }}

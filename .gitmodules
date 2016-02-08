@@ -1,5 +1,5 @@
 [submodule ".bash_it"]
-	path = modules/.bash_it
+	path = modules/bash-it
 	url = https://github.com/seattle-beach/bash-it.git
 [submodule "modules/pivotal_ide_prefs"]
 	path = modules/pivotal_ide_prefs
