@@ -62,6 +62,7 @@
         - postgresql
         - rbenv
         - ruby-build
+        - tmux
 
     - name: Install Homebrew casks
       homebrew_cask: name={{ item }}
