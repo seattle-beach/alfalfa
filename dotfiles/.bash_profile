@@ -11,4 +11,6 @@ source $BASH_IT/bash_it.sh
 
 export GIT_DUET_ROTATE_AUTHOR=1
 
-eval "$(direnv hook bash)"
+if command -v direnv &> /dev/null; then
+  eval "$(direnv hook bash)"
+fi
