@@ -24,14 +24,14 @@
         - ~/.bash_profile
 
     - name: Symlink config files
-      file: src=~/.alfalfa/dotfiles/{{ item.key }} dest={{ item.value }} state=link
-      with_dict:
-        .bash_it: ~/.bash_it
-        .bash_profile: ~/.bash_profile
-        .git-authors: ~/.git-authors
-        .git-authors: ~/.pairs
-        .gitconfig: ~/.gitconfig
-        .gitignore_global: ~/.gitignore_global
+      file: src=~/.alfalfa/dotfiles/{{ item.src }} dest={{ item.dest }} state=link
+      with_items:
+        - { src: .bash_it, dest: ~/.bash_it }
+        - { src: .bash_profile, dest: ~/.bash_profile }
+        - { src: .git-authors, dest: ~/.git-authors }
+        - { src: .git-authors, dest: ~/.pairs }
+        - { src: .gitconfig, dest: ~/.gitconfig }
+        - { src: .gitignore_global, dest: ~/.gitignore_global }
 
     - name: Tap Homebrew repositories
       homebrew_tap: tap={{ item }}
