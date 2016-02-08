@@ -26,13 +26,13 @@
         - ~/.bash_profile
 
     - name: Symlink config files
-      file: src=~/.alfalfa/dotfiles/{{ item.src }} dest={{ item.dest }} state=link
-      with_items:
-        - .bash_profile: ~/.bash_profile
-        - .gemrc: ~/.gemrc
-        - .git-authors: ~/.git-authors
-        - .gitconfig: ~/.gitconfig
-        - .gitignore_global: ~/.gitignore_global
+      file: src=~/.alfalfa/dotfiles/{{ item.key }} dest={{ item.value }} state=link
+      with_dict:
+        .bash_profile: ~/.bash_profile
+        .gemrc: ~/.gemrc
+        .git-authors: ~/.git-authors
+        .gitconfig: ~/.gitconfig
+        .gitignore_global: ~/.gitignore_global
 
     - name: Symlink .pairs
       file: src=~/.git-authors dest=~/.pairs state=link
