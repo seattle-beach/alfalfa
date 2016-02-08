@@ -1,0 +1,10 @@
+- hosts: all
+  tasks:
+    - name: Authenticate sudo for Homebrew installation
+      ping:
+      become: yes
+  
+    - name: Install Homebrew
+      shell: /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" < /dev/null
+      args:
+        creates: /usr/local/bin/brew
