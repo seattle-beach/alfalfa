@@ -119,4 +119,21 @@
         - rubymine
 
     - name: Install vim config
-      command: ~/.vim/bin/install
+      shell: ~/.vim/bin/install
+
+    - name: Add ShiftIt to login items
+      command: ~/.alfalfa/bin/addLoginItem ~/Applications/ShiftIt.app
+      become: yes
+      become_user: "{{ ansible_env.USER }}"
+    - name: Check if ShiftIt is enabled in Accessibility whitelist
+      shell: echo "SELECT allowed FROM access WHERE client = 'org.shiftitapp.ShiftIt';" | sqlite3 /Library/Application\ Support/com.apple.TCC/TCC.db
+      become: yes
+      register: shiftit_out
+    - name: Add ShiftIt to Accessibility whitelist
+      shell: echo "INSERT INTO access VALUES('kTCCServiceAccessibility','org.shiftitapp.ShiftIt',0,1,1,NULL);" | sqlite3 /Library/Application\ Support/com.apple.TCC/TCC.db
+      become: yes
+      when: not shiftit_out.stdout
+    - name: Enable ShiftIt in Accessiblity whitelist
+      shell: echo "UPDATE access SET allowed = 1 WHERE client = 'org.shiftitapp.ShiftIt';" | sqlite3 /Library/Application\ Support/com.apple.TCC/TCC.db
+      become: yes
+      when: shiftit_out.stdout and shiftit_out.stdout != "1"
