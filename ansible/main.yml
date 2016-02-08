@@ -61,8 +61,10 @@
       with_items:
         - font-hack
         - font-source-code-pro
+        - intellij-idea
         - iterm2
         - macvim
+        - rubymine
         - shiftit
 
     - name: Update OS X defaults
@@ -95,6 +97,15 @@
         creates: ~/.rbenv/versions/2.2.4
     - name: Use Ruby 2.2.4
       shell: rbenv global 2.2.4 && rbenv rehash
-
     - name: Install Ruby gems
       command: gem install bundler
+
+    - name: Clone Pivotal IDE prefs
+      git:
+        repo: https://github.com/pivotal/pivotal_ide_prefs.git
+        dest: ~/workspace/pivotal_ide_prefs
+    - name: Install Pivotal IDE prefs
+      command: ~/workspace/pivotal_ide_prefs/cli --ide={{ item }} install
+      with_items:
+        - intellij
+        - rubymine
