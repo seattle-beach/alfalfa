@@ -44,5 +44,25 @@
     - name: Install Homebrew formulae
       homebrew: name={{ item }}
       with_items:
+        - direnv
         - git-duet
         - git-pair
+
+    - name: Install Homebrew casks
+      homebrew_cask: name={{ item }}
+      with_items:
+        - iterm2
+        - macvim
+        - shiftit
+
+    - name: Update OS X defaults
+      osx_defaults: domain={{ item.domain }} key={{ item.key }} type={{ item.type }} value={{ item.value }}
+      with_items:
+        - domain: com.apple.Terminal
+          key: Default Window Settings
+          type: string
+          value: Pro
+        - domain: com.apple.Terminal
+          key: Startup Window Settings
+          type: string
+          value: Pro
