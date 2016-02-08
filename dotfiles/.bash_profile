@@ -10,6 +10,7 @@ export BASH_IT_THEME="bobby"
 source $BASH_IT/bash_it.sh
 
 export GIT_DUET_ROTATE_AUTHOR=1
+export EDITOR=vim
 
 if command -v direnv &> /dev/null; then
   eval "$(direnv hook bash)"
