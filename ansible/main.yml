@@ -8,3 +8,15 @@
       shell: /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" < /dev/null
       args:
         creates: /usr/local/bin/brew
+
+    - name: Clone Alfalfa
+      git:
+        repo: https://github.com/seattle-beach/alfalfa.git
+        dest: ~/.alfalfa
+        version: wip
+        force: yes
+
+    - name: Symlink configs
+      file: src=~/.alfalfa/dotfiles/{{ item.key }} dest={{ item.value }} state=link
+      with_dict:
+        .bash_it: ~/.bash_it

@@ -1,3 +1,3 @@
 [submodule ".bash_it"]
-	path = .bash_it
+	path = dotfiles/.bash_it
 	url = https://github.com/seattle-beach/bash-it.git
