@@ -40,7 +40,7 @@
     - name: Symlink submodules
       file: src=~/.alfalfa/modules/{{ item.key }} dest={{ item.value }} state=link
       with_dict:
-        .bash_it: ~/.bash_it
+        bash-it: ~/.bash_it
         vim-config: ~/.vim
 
     - name: Tap Homebrew repositories
