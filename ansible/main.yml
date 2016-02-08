@@ -49,6 +49,7 @@
         - direnv
         - git-duet
         - git-pair
+        - postgresql
 
     - name: Install Homebrew casks
       homebrew_cask: name={{ item }}
@@ -73,3 +74,12 @@
 
     - name: Create ~/workspace
       file: path=~/workspace state=directory
+
+    - name: Create LaunchAgents dir
+      file: path=~/Library/LaunchAgents state=directory
+    - name: Get Postgres launch agents
+      shell: ls /usr/local/opt/postgresql/*.plist
+      register: postgres_launch_agents
+    - name: Link Postgres launch agents
+      file: src={{ item }} dest=~/Library/LaunchAgents/{{ item | basename }} state=link
+      with_items: "{{ postgres_launch_agents.stdout_lines }}"
