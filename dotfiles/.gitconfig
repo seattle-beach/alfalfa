@@ -35,6 +35,7 @@
 [rebase]
 	autosquash = true
 [push]
-	default = simple
+	default = current
+	recurseSubmodules = true
 [interactive]
 	singlekey = true
