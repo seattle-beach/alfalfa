@@ -16,7 +16,33 @@
         version: wip
         force: yes
 
-    - name: Symlink configs
+    - name: Clean up existing config files
+      command: mv {{ item }} {{ item }}.orig
+      args:
+        creates: "{{ item }}.orig"
+      with_items:
+        - ~/.bash_profile
+
+    - name: Symlink config files
       file: src=~/.alfalfa/dotfiles/{{ item.key }} dest={{ item.value }} state=link
       with_dict:
         .bash_it: ~/.bash_it
+        .bash_profile: ~/.bash_profile
+        .git-authors: ~/.git-authors
+        .gitconfig: ~/.gitconfig
+        .gitignore_global: ~/.gitignore_global
+
+    - name: Tap Homebrew repositories
+      homebrew_tap: tap={{ item }}
+      with_items:
+        - git-duet/tap
+        - pivotal/tap
+
+    - name: Update Homebrew
+      homebrew: update_homebrew=yes
+
+    - name: Install Homebrew formulae
+      homebrew: name={{ item }}
+      with_items:
+        - git-duet
+        - git-pair
