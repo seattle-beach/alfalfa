@@ -14,3 +14,7 @@ export GIT_DUET_ROTATE_AUTHOR=1
 if command -v direnv &> /dev/null; then
   eval "$(direnv hook bash)"
 fi
+
+if command -v rbenv &> /dev/null; then
+  eval "$(rbenv init -)"
+fi

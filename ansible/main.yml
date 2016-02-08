@@ -51,6 +51,8 @@
         - git-duet
         - git-pair
         - postgresql
+        - rbenv
+        - ruby-build
 
     - name: Install Homebrew casks
       homebrew_cask: name={{ item }}
@@ -84,3 +86,9 @@
     - name: Link Postgres launch agents
       file: src={{ item }} dest=~/Library/LaunchAgents/{{ item | basename }} state=link
       with_items: "{{ postgres_launch_agents.stdout_lines }}"
+
+    - name: Install Ruby 2.2.4
+      command: /usr/local/bin/rbenv install 2.2.4
+
+    - name: Install Ruby gems
+      command: /usr/local/bin/gem install bundler
