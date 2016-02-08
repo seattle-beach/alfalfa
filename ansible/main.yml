@@ -29,12 +29,14 @@
         .bash_it: ~/.bash_it
         .bash_profile: ~/.bash_profile
         .git-authors: ~/.git-authors
+        .git-authors: ~/.pairs
         .gitconfig: ~/.gitconfig
         .gitignore_global: ~/.gitignore_global
 
     - name: Tap Homebrew repositories
       homebrew_tap: tap={{ item }}
       with_items:
+        - caskroom/fonts
         - git-duet/tap
         - pivotal/tap
 
@@ -51,6 +53,8 @@
     - name: Install Homebrew casks
       homebrew_cask: name={{ item }}
       with_items:
+        - font-hack
+        - font-source-code-pro
         - iterm2
         - macvim
         - shiftit
@@ -66,3 +70,6 @@
           key: Startup Window Settings
           type: string
           value: Pro
+
+    - name: Create ~/workspace
+      file: path=~/workspace state=directory
