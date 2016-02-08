@@ -122,10 +122,14 @@
     - name: Install vim config
       shell: ~/.vim/bin/install
 
-    - name: Add ShiftIt to login items
-      command: ~/.alfalfa/bin/addLoginItem ~/Applications/ShiftIt.app
+    - name: Set login items
+      command: ~/.alfalfa/bin/addLoginItem ~/Applications/{{ item }}.app
       become: yes
       become_user: "{{ ansible_env.USER }}"
+      with_items:
+        - Flycut
+        - ShiftIt
+
     - name: Check if ShiftIt is enabled in Accessibility whitelist
       shell: echo "SELECT allowed FROM access WHERE client = 'org.shiftitapp.ShiftIt';" | sqlite3 /Library/Application\ Support/com.apple.TCC/TCC.db
       become: yes
