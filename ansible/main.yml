@@ -109,7 +109,14 @@
         repo: https://github.com/pivotal/pivotal_ide_prefs.git
         dest: ~/workspace/pivotal_ide_prefs
     - name: Install Pivotal IDE prefs
-      command: ~/workspace/pivotal_ide_prefs/cli --ide={{ item }} install
+      command: ~/workspace/pivotal_ide_prefs/cli/bin/ide_prefs --ide={{ item }} install
       with_items:
         - intellij
         - rubymine
+
+    - name: Clone vim config
+      git:
+        repo: https://github.com/pivotalcommon/vim-config.git
+        dest: ~/.vim
+    - name: Install vim config
+      command: ~/.vim/bin/install
