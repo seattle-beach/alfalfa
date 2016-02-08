@@ -1,4 +1,6 @@
 - hosts: all
+  environment:
+    PATH: "/usr/local/bin:/Users/{{ ansible_env.USER }}/.rbenv/shims:{{ ansible_env.PATH }}"
   tasks:
     - name: Authenticate sudo for Homebrew installation
       ping:
@@ -88,7 +90,11 @@
       with_items: "{{ postgres_launch_agents.stdout_lines }}"
 
     - name: Install Ruby 2.2.4
-      command: /usr/local/bin/rbenv install 2.2.4
+      command: rbenv install 2.2.4
+      args:
+        creates: ~/.rbenv/versions/2.2.4
+    - name: Use Ruby 2.2.4
+      shell: rbenv global 2.2.4 && rbenv rehash
 
     - name: Install Ruby gems
-      command: /usr/local/bin/gem install bundler
+      command: gem install bundler
