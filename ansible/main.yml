@@ -39,6 +39,7 @@
       file: src=~/.alfalfa/modules/{{ item.key }} dest={{ item.value }} state=link
       with_dict:
         .bash_it: ~/.bash_it
+        .vim-config: ~/.vim
 
     - name: Tap Homebrew repositories
       homebrew_tap: tap={{ item }}
@@ -108,21 +109,13 @@
     - name: Install Ruby gems
       command: gem install bundler
 
-    - name: Clone Pivotal IDE prefs
-      git:
-        repo: https://github.com/pivotal/pivotal_ide_prefs.git
-        dest: ~/workspace/pivotal_ide_prefs
     - name: Install Pivotal IDE prefs
       command: ./bin/ide_prefs --ide={{ item }} install
       args:
-        chdir: ~/workspace/pivotal_ide_prefs/cli
+        chdir: ~/.alfalfa/modules/pivotal_ide_prefs/cli
       with_items:
         - intellij
         - rubymine
 
-    - name: Clone vim config
-      git:
-        repo: https://github.com/pivotalcommon/vim-config.git
-        dest: ~/.vim
     - name: Install vim config
       command: ~/.vim/bin/install
