@@ -28,12 +28,14 @@
     - name: Symlink config files
       file: src=~/.alfalfa/dotfiles/{{ item.src }} dest={{ item.dest }} state=link
       with_items:
-        - { src: .bash_profile, dest: ~/.bash_profile }
-        - { src: .gemrc, dest: ~/.gemrc }
-        - { src: .git-authors, dest: ~/.git-authors }
-        - { src: .git-authors, dest: ~/.pairs }
-        - { src: .gitconfig, dest: ~/.gitconfig }
-        - { src: .gitignore_global, dest: ~/.gitignore_global }
+        - .bash_profile: ~/.bash_profile
+        - .gemrc: ~/.gemrc
+        - .git-authors: ~/.git-authors
+        - .gitconfig: ~/.gitconfig
+        - .gitignore_global: ~/.gitignore_global
+
+    - name: Symlink .pairs
+      file: src=~/.git-authors dest=~/.pairs state=link
 
     - name: Symlink submodules
       file: src=~/.alfalfa/modules/{{ item.key }} dest={{ item.value }} state=link
