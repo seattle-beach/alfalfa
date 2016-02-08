@@ -28,6 +28,7 @@
       with_items:
         - { src: .bash_it, dest: ~/.bash_it }
         - { src: .bash_profile, dest: ~/.bash_profile }
+        - { src: .gemrc, dest: ~/.gemrc }
         - { src: .git-authors, dest: ~/.git-authors }
         - { src: .git-authors, dest: ~/.pairs }
         - { src: .gitconfig, dest: ~/.gitconfig }
