@@ -64,6 +64,11 @@
         - postgresql
         - rbenv
         - tmux
+        - watch
+
+    - name: Authenticate sudo for app installations
+      ping:
+      become: yes
 
     - name: Install Homebrew casks
       homebrew_cask: name={{ item }}
@@ -120,7 +125,7 @@
         - rubymine
 
     - name: Install vim config
-      shell: ~/.vim/bin/install
+      command: ~/.vim/bin/install
 
     - name: Set login items
       command: ~/.alfalfa/bin/addLoginItem ~/Applications/{{ item }}.app
