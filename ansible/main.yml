@@ -5,7 +5,7 @@
     - name: Authenticate sudo for Homebrew installation
       ping:
       become: yes
-  
+
     - name: Install Homebrew
       shell: /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" < /dev/null
       args:
@@ -15,7 +15,6 @@
       git:
         repo: https://github.com/seattle-beach/alfalfa.git
         dest: ~/.alfalfa
-        version: wip
 
     - name: Clean up existing config files
       command: mv {{ item }} {{ item }}.orig
