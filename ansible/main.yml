@@ -16,7 +16,6 @@
         repo: https://github.com/seattle-beach/alfalfa.git
         dest: ~/.alfalfa
         version: wip
-        force: yes
 
     - name: Clean up existing config files
       command: mv {{ item }} {{ item }}.orig
@@ -42,6 +41,14 @@
       with_dict:
         bash-it: ~/.bash_it
         vim-config: ~/.vim
+        vim-config/vimrc: ~/.vimrc
+
+    - name: Install Vundle
+      git:
+       repo: https://github.com/VundleVim/Vundle.vim.git
+       dest: ~/.vim/bundle/Vundle.vim
+    - name: Install Vundle plugins
+      command: vim +PluginInstall +redraw +qall
 
     - name: Tap Homebrew repositories
       homebrew_tap: tap={{ item }}
@@ -123,9 +130,6 @@
       with_items:
         - intellij
         - rubymine
-
-    - name: Install vim config
-      command: ~/.vim/bin/install
 
     - name: Set login items
       command: ~/.alfalfa/bin/addLoginItem ~/Applications/{{ item }}.app
