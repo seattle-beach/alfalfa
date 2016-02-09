@@ -11,7 +11,7 @@ scripting.
 
 ## Usage
 
-Adding a new config file: `rake add_config[PATH_TO_FILE]`
+Adding a new config: `rake add_config[PATH]`
 
 Updating submodules: `rake update_submodules`
 
