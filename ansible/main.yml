@@ -31,6 +31,7 @@
       file: src=~/.alfalfa/dotfiles/{{ item.key }} dest={{ item.value }} state=link
       with_dict:
         .bash_profile: ~/.bash_profile
+        .bundle: ~/.bundle
         .gemrc: ~/.gemrc
         .git-authors: ~/.git-authors
         .gitconfig: ~/.gitconfig
