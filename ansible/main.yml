@@ -112,12 +112,12 @@
       file: src={{ item }} dest=~/Library/LaunchAgents/{{ item | basename }} state=link
       with_items: "{{ postgres_launch_agents.stdout_lines }}"
 
-    - name: Install Ruby 2.2.4
-      command: rbenv install 2.2.4
+    - name: Install Ruby 2.2.3
+      command: rbenv install 2.2.3
       args:
-        creates: ~/.rbenv/versions/2.2.4
-    - name: Use Ruby 2.2.4
-      shell: rbenv global 2.2.4 && rbenv rehash
+        creates: ~/.rbenv/versions/2.2.3
+    - name: Use Ruby 2.2.3
+      shell: rbenv global 2.2.3 && rbenv rehash
     - name: Install Ruby gems
       command: gem install bundler
 
