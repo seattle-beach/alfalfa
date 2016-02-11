@@ -99,18 +99,6 @@
         - rubymine
         - shiftit
 
-    - name: Update OS X defaults
-      osx_defaults: domain={{ item.domain }} key={{ item.key }} type={{ item.type }} value={{ item.value }}
-      with_items:
-        - domain: com.apple.Terminal
-          key: Default Window Settings
-          type: string
-          value: Pro
-        - domain: com.apple.Terminal
-          key: Startup Window Settings
-          type: string
-          value: Pro
-
     - name: Create ~/workspace
       file: path=~/workspace state=directory
 
@@ -140,18 +128,42 @@
         - intellij
         - rubymine
 
-    - name: Autohide the Dock
+    - name: Update OS X defaults
       osx_defaults:
-        domain: com.apple.dock
-        key: autohide
-        type: bool
-        value: true
-    - name: Put the Dock on the left
-      osx_defaults:
-        domain: com.apple.dock
-        key: orientation
-        type: string
-        value: left
+        domain: "{{ item.domain | default(omit) }}"
+        key: "{{ item.key }}"
+        type: "{{ item.type }}"
+        value: "{{ item.value }}"
+      with_items:
+        - # Set default Terminal theme to Pro
+          domain: com.apple.Terminal
+          key: Default Window Settings
+          type: string
+          value: Pro
+        - # Set default Terminal theme to Pro
+          domain: com.apple.Terminal
+          key: Startup Window Settings
+          type: string
+          value: Pro
+        - # Autohide the Dock
+          domain: com.apple.dock
+          key: autohide
+          type: bool
+          value: true
+        - # Put the Dock on the left
+          domain: com.apple.dock
+          key: orientation
+          type: string
+          value: left
+        - # keyboard repeat rate
+          key: KeyRepeat
+          type: int
+          value: 1
+        - # delay before keyboard repeat
+          key: InitialKeyRepeat
+          type: int
+          value: 15
+
     - name: Install dockutil
       homebrew: name=dockutil
     - name: Remove all icons from the Dock
