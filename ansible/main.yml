@@ -2,23 +2,28 @@
   environment:
     PATH: "/usr/local/bin:/Users/{{ ansible_env.USER }}/.rbenv/shims:{{ ansible_env.PATH }}"
   tasks:
+    - name: Clone Alfalfa and child repos
+      git:
+        repo: https://github.com/seattle-beach/{{ item }}.git
+        dest: ~/workspace/{{ item }}
+      with_items:
+        - alfalfa
+        - bash-it
+        - pivotal_ide_prefs
+        - vim-config
+
     - name: Authenticate sudo for Homebrew installation
       ping:
       become: yes
 
-    # - name: Fix permissions on /usr/local/bin
-    #   file: path=/usr/local/bin owner={{ ansible_env.USER }} state=directory
-    #   become: yes
+    - name: Fix permissions on /usr/local/bin
+      file: path=/usr/local/bin owner={{ ansible_env.USER }} state=directory
+      become: yes
 
     - name: Install Homebrew
       shell: /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" < /dev/null
       args:
         creates: /usr/local/bin/brew
-
-    - name: Clone Alfalfa
-      git:
-        repo: https://github.com/seattle-beach/alfalfa.git
-        dest: ~/.alfalfa
 
     - name: Clean up existing config files
       command: mv {{ item }} {{ item }}.orig
@@ -28,7 +33,7 @@
         - ~/.bash_profile
 
     - name: Symlink config files
-      file: src=~/.alfalfa/dotfiles/{{ item }} dest=~/{{ item }} state=link
+      file: src=~/workspace/alfalfa/dotfiles/{{ item }} dest=~/{{ item }} state=link
       with_items:
         - .bash_profile
         - .bundle
@@ -40,8 +45,8 @@
     - name: Symlink .pairs
       file: src=~/.git-authors dest=~/.pairs state=link
 
-    - name: Symlink submodules
-      file: src=~/.alfalfa/modules/{{ item.key }} dest={{ item.value }} state=link
+    - name: Symlink child repositories
+      file: src=~/workspace/{{ item.key }} dest={{ item.value }} state=link
       with_dict:
         bash-it: ~/.bash_it
         vim-config: ~/.vim
@@ -73,6 +78,7 @@
         - ansible
         - cf-cli
         - direnv
+        - git
         - git-duet
         - git-pair
         - node
@@ -100,9 +106,6 @@
         - rubymine
         - shiftit
 
-    - name: Create ~/workspace
-      file: path=~/workspace state=directory
-
     - name: Create LaunchAgents dir
       file: path=~/Library/LaunchAgents state=directory
     - name: Get Postgres launch agents
@@ -124,7 +127,7 @@
     - name: Install Pivotal IDE prefs
       command: ./bin/ide_prefs --ide={{ item }} install
       args:
-        chdir: ~/.alfalfa/modules/pivotal_ide_prefs/cli
+        chdir: ~/workspace/pivotal_ide_prefs/cli
       with_items:
         - intellij
         - rubymine
@@ -176,7 +179,7 @@
       ignore_errors: yes
 
     - name: Set login items
-      command: ~/.alfalfa/bin/addLoginItem ~/Applications/{{ item }}.app
+      command: ~/workspace/alfalfa/bin/addLoginItem ~/Applications/{{ item }}.app
       become: yes
       become_user: "{{ ansible_env.USER }}"
       with_items:
