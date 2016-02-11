@@ -6,6 +6,10 @@
       ping:
       become: yes
 
+    # - name: Fix permissions on /usr/local/bin
+    #   file: path=/usr/local/bin owner={{ ansible_env.USER }} state=directory
+    #   become: yes
+
     - name: Install Homebrew
       shell: /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" < /dev/null
       args:
@@ -129,6 +133,28 @@
       with_items:
         - intellij
         - rubymine
+
+    - name: Autohide the Dock
+      osx_defaults:
+        domain: com.apple.dock
+        key: autohide
+        type: bool
+        value: true
+    - name: Put the Dock on the left
+      osx_defaults:
+        domain: com.apple.dock
+        key: orientation
+        type: string
+        value: left
+    - name: Install dockutil
+      homebrew: name=dockutil
+    - name: Remove all icons from the Dock
+      command: dockutil --remove all
+    - name: Uninstall dockutil
+      homebrew: name=dockutil state=absent
+    - name: Restart the Dock
+      command: killall Dock
+      ignore_errors: yes
 
     - name: Set login items
       command: ~/.alfalfa/bin/addLoginItem ~/Applications/{{ item }}.app
