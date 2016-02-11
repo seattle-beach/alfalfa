@@ -67,6 +67,9 @@
     - name: Install Homebrew formulae
       homebrew: name={{ item }}
       with_items:
+        - ag
+        - android
+        - ansible
         - cf-cli
         - direnv
         - git-duet
@@ -89,6 +92,7 @@
         - google-chrome
         - intellij-idea
         - iterm2
+        - java
         - macvim
         - rubymine
         - shiftit
