@@ -75,6 +75,7 @@
         - direnv
         - git-duet
         - git-pair
+        - node
         - postgresql
         - rbenv
         - tmux
