@@ -11,11 +11,9 @@ scripting.
 
 ## Usage
 
-Adding a new config: `rake add_config[PATH]`
 
-Updating submodules: `rake update_submodules`
 
-## Installation
+## Provisioning
 
 On the machine to be provisioned:
 
@@ -31,5 +29,26 @@ brew install ansible
 git clone https://github.com/seattle-beach/alfalfa
 cd alfalfa/ansible
 echo HOST > hosts
+ansible-playbook main.yml --ask-pass --ask-become-pass
+```
+
+### Local provisioning
+
+Although it is less convenient than installing from an already-provisioned
+computer, Alfalfa can also be provisioned locally:
+
+```
+# Install Homebrew
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+
+# Install Ansible
+brew install ansible
+
+# Clone the Alfalfa repo
+git clone https://github.com/seattle-beach/alfalfa.git ~/workspace/alfalfa
+cd ~/workspace/alfalfa/ansible
+
+# Provision the local machine
+echo localhost > hosts
 ansible-playbook main.yml --ask-pass --ask-become-pass
 ```
