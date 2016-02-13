@@ -198,3 +198,9 @@
       shell: echo "UPDATE access SET allowed = 1 WHERE client = 'org.shiftitapp.ShiftIt';" | sqlite3 /Library/Application\ Support/com.apple.TCC/TCC.db
       become: yes
       when: shiftit_out.stdout and shiftit_out.stdout != "1"
+
+    - name: Start OS X apps
+      shell: pgrep "{{ item.key }}" || open -a "{{ item.value }}"
+      with_dict:
+        ShiftIt: ShiftIt.app
+      tags: [debug]
