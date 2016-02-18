@@ -15,10 +15,11 @@ scripting.
 
 ## Provisioning
 
-On the machine to be provisioned:
+On the machine to be provisioned, change the computer name in System
+Preferences -> Sharing and then get past the first-run sudo disclaimer:
 
 ```
-sudo -v && sudo -k # Get past the first-run sudo disclaimer.
+sudo -v && sudo -k
 ```
 
 On the control machine:
