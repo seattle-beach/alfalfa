@@ -36,6 +36,5 @@
 	autosquash = true
 [push]
 	default = current
-	recurseSubmodules = true
 [interactive]
 	singlekey = true
