@@ -1,11 +1,12 @@
 - hosts: all
-  environment:
-    PATH: "/usr/local/bin:/Users/{{ ansible_env.USER }}/.rbenv/shims:{{ ansible_env.PATH }}"
+  # environment:
+  #   PATH: "/usr/local/bin:/Users/{{ ansible_env.USER }}/.rbenv/shims:{{ ansible_env.PATH }}"
   tasks:
     - name: Clone Alfalfa and child repos
       git:
         repo: https://github.com/seattle-beach/{{ item }}.git
         dest: ~/workspace/{{ item }}
+      ignore_errors: yes
       with_items:
         - alfalfa
         - bash-it
@@ -99,9 +100,11 @@
         - font-sauce-code-powerline
         - font-source-code-pro
         - google-chrome
+        - google-drive
         - intellij-idea
         - iterm2
-        - java
+        - lastpass
+        # - java
         - macvim
         - rubymine
         - shiftit
@@ -115,14 +118,23 @@
       file: src={{ item }} dest=~/Library/LaunchAgents/{{ item | basename }} state=link
       with_items: "{{ postgres_launch_agents.stdout_lines }}"
 
-    - name: Install Ruby 2.2.3
-      command: rbenv install 2.2.3
+    - name: Install Rubies
+      command: rbenv install {{ item }}
       args:
-        creates: ~/.rbenv/versions/2.2.3
+        creates: ~/.rbenv/versions/{{ item }}
+      with_items:
+        - 2.0.0-p648
+        - 2.2.3
+      environment:
+        PATH: "/usr/local/bin:/Users/{{ ansible_env.USER }}/.rbenv/shims:{{ ansible_env.PATH }}"
     - name: Use Ruby 2.2.3
       shell: rbenv global 2.2.3 && rbenv rehash
+      environment:
+        PATH: "/usr/local/bin:/Users/{{ ansible_env.USER }}/.rbenv/shims:{{ ansible_env.PATH }}"
     - name: Install Ruby gems
       command: gem install bundler
+      environment:
+        PATH: "/usr/local/bin:/Users/{{ ansible_env.USER }}/.rbenv/shims:{{ ansible_env.PATH }}"
 
     - name: Install Pivotal IDE prefs
       command: ./bin/ide_prefs --ide={{ item }} install
@@ -172,6 +184,8 @@
       homebrew: name=dockutil
     - name: Remove all icons from the Dock
       command: dockutil --remove all
+      environment:
+        PATH: "/usr/local/bin:/Users/{{ ansible_env.USER }}/.rbenv/shims:{{ ansible_env.PATH }}"
     - name: Uninstall dockutil
       homebrew: name=dockutil state=absent
     - name: Restart the Dock
@@ -203,4 +217,3 @@
       shell: pgrep "{{ item.key }}" || open -a "{{ item.value }}"
       with_dict:
         ShiftIt: ShiftIt.app
-      tags: [debug]
