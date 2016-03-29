@@ -2,6 +2,8 @@
   # environment:
   #   PATH: "/usr/local/bin:/Users/{{ ansible_env.USER }}/.rbenv/shims:{{ ansible_env.PATH }}"
   tasks:
+    - name: Ensure that the .ssh directory exists
+      file: path=~/.ssh/known_hosts owner={{ ansible_env.USER }} state=touch
     - name: Clone Alfalfa and child repos
       git:
         repo: https://github.com/seattle-beach/{{ item }}.git
