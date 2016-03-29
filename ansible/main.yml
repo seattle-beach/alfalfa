@@ -77,7 +77,7 @@
       homebrew: name={{ item }}
       with_items:
         - ag
-        - android
+#        - android
         - ansible
         - cf-cli
         - direnv
