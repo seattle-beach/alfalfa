@@ -38,3 +38,5 @@
 	default = current
 [interactive]
 	singlekey = true
+[merge]
+	conflictstyle = diff3
