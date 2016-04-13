@@ -191,6 +191,12 @@
           type: int
           value: 15
 
+    - name: Download golang
+      get_url: url=https://storage.googleapis.com/golang/go1.6.darwin-amd64.tar.gz dest=/tmp/
+    - name: Extract go library
+      command: tar -C /usr/local -xzf /tmp/go1.6.darwin-amd64.tar.gz
+
+
     - name: Install dockutil
       homebrew: name=dockutil
     - name: Remove all icons from the Dock

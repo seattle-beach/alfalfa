@@ -1,4 +1,4 @@
-export PATH="/usr/local/bin:$PATH"
+export PATH="/usr/local/bin:/usr/local/go/bin/:$PATH"
 
 # Path to the bash it configuration
 export BASH_IT="/Users/pivotal/.bash_it"
@@ -19,3 +19,4 @@ fi
 if command -v rbenv &> /dev/null; then
   eval "$(rbenv init -)"
 fi
+
