@@ -222,7 +222,7 @@
       become: yes
       register: shiftit_out
     - name: Add ShiftIt to Accessibility whitelist
-      shell: echo "INSERT INTO access VALUES('kTCCServiceAccessibility','org.shiftitapp.ShiftIt',0,1,1,NULL);" | sqlite3 /Library/Application\ Support/com.apple.TCC/TCC.db
+      shell: echo "INSERT INTO access VALUES('kTCCServiceAccessibility','org.shiftitapp.ShiftIt',0,1,1,NULL,NULL);" | sqlite3 /Library/Application\ Support/com.apple.TCC/TCC.db
       become: yes
       when: not shiftit_out.stdout
     - name: Enable ShiftIt in Accessiblity whitelist
