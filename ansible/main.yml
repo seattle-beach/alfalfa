@@ -116,6 +116,8 @@
         - macvim
         - rubymine
         - shiftit
+        - sublime
+        - postman
 
     - name: Install gi
       get_url: url=https://github.com/sgravrock/gi/releases/download/0.0.1/gi-0.0.1-macosx dest=/usr/local/bin/gi mode=0755
