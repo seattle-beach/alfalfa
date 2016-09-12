@@ -95,6 +95,7 @@
         - rbenv
         - tmux
         - watch
+        - openssl
 
     - name: Authenticate sudo for app installations
       ping:
@@ -236,3 +237,6 @@
       shell: pgrep "{{ item.key }}" || open -a "{{ item.value }}"
       with_dict:
         ShiftIt: ShiftIt.app
+
+    - name: Set up links for OpenSSL installed by Homebrew
+      copy: dest=~/.bash_it/custom/openssl_pkgconfig.bash content="PKG_CONFIG_PATH=/usr/local/Cellar/openssl/$(ls /usr/local/Cellar/openssl/ | tail -1)/lib/pkgconfig" owner={{ ansible_env.USER }}
