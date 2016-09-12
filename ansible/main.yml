@@ -192,6 +192,21 @@
           key: InitialKeyRepeat
           type: int
           value: 15
+        - # Function keys are F keys
+          domain: com.apple.keyboard
+          key: fnState
+          type: bool
+          value: true
+        - # Show date with time in menu bar
+          domain: com.apple.menuextra.clock
+          key: DateFormat
+          type: string
+          value: EEE MMM d  h:mm a
+        - # show scissors for flycut icon
+          domain: com.generalarcade.flycut
+          key: menuIcon
+          type: int
+          value: 3
 
     - name: Download golang
       get_url: url=https://storage.googleapis.com/golang/go1.6.darwin-amd64.tar.gz dest=/tmp/
@@ -236,3 +251,4 @@
       shell: pgrep "{{ item.key }}" || open -a "{{ item.value }}"
       with_dict:
         ShiftIt: ShiftIt.app
+        Flycut: Flycut.app
