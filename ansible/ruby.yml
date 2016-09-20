@@ -17,7 +17,7 @@
         creates: ~/.rbenv/versions/{{ item }}
       with_items:
         - 2.0.0-p648
-        - {{ current_version }}
+        - "{{ current_version }}"
 
     - name: Use Ruby {{ current_version }}
       shell: rbenv global {{ current_version }} && rbenv rehash
