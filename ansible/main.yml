@@ -30,7 +30,7 @@
       with_items: "{{ repos }}"
 
     - name: Set upstreams for repos
-      command: git remote add upstream https://github.com:{{ item.value }}/{{ item.key }}.git
+      command: git remote add upstream https://github.com/{{ item.value }}/{{ item.key }}.git
       args:
         chdir: ~/workspace/{{ item.key }}
       ignore_errors: yes
