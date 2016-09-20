@@ -1,10 +1,11 @@
 authors:
   ac: Alpha Chen; achen
-  ks: Kurtis Seebaldt; kseebaldt
   am: Andres Medina; amedina
-  sm: Sarah McAlear; smcalear
-  sg: Steve Gravrock; sgravrock
   gcm: Greg Chattin-McNichols; gchattinmcnichols
+  gv: Gregg Van Hove; gvanhove
+  ks: Kurtis Seebaldt; kseebaldt
+  sg: Steve Gravrock; sgravrock
+  sm: Sarah McAlear; smcalear
   tr: Toby Rumans; trumans
 email:
   domain: pivotal.io
