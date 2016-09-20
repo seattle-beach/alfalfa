@@ -82,6 +82,7 @@
         - golang
         - gti
         - node
+        - openssl
         - postgresql
         - rbenv
         - tmux
