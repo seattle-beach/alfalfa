@@ -155,16 +155,6 @@
         type: "{{ item.type }}"
         value: "{{ item.value }}"
       with_items:
-        - # Set default Terminal theme to Pro
-          domain: com.apple.Terminal
-          key: Default Window Settings
-          type: string
-          value: Pro
-        - # Set default Terminal theme to Pro
-          domain: com.apple.Terminal
-          key: Startup Window Settings
-          type: string
-          value: Pro
         - # Autohide the Dock
           domain: com.apple.dock
           key: autohide
@@ -198,6 +188,18 @@
           key: menuIcon
           type: int
           value: 3
+
+    - name: import terminal profile
+      command: open ~/.dotfiles/Pivotal.terminal
+    - name: set terminal profile to be the default
+      my_defaults:
+        domain: com.apple.Terminal
+        key: "{{ item }} Window Settings"
+        type: string
+        value: Pivotal
+      with_items:
+        - Default
+        - Startup
 
     - name: Install dockutil
       homebrew: name=dockutil
