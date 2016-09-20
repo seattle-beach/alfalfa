@@ -215,7 +215,7 @@
       ignore_errors: yes
 
     - name: Set login items
-      command: ~/workspace/alfalfa/bin/addLoginItem ~/Applications/{{ item }}.app
+      command: ~/workspace/alfalfa/bin/addLoginItem /Applications/{{ item }}.app
       become: yes
       become_user: "{{ ansible_env.USER }}"
       with_items:
