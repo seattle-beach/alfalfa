@@ -1,0 +1,13 @@
+- hosts: all
+  tasks:
+
+    - name: Install Postgres
+      homebrew: name=postgresql
+
+    - name: Get Postgres launch agents
+      shell: ls /usr/local/opt/postgresql/*.plist
+      register: postgres_launch_agents
+
+    - name: Link Postgres launch agents
+      file: src={{ item }} dest=~/Library/LaunchAgents/{{ item | basename }} state=link
+      with_items: "{{ postgres_launch_agents.stdout_lines }}"

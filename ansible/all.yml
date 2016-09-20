@@ -1,0 +1,5 @@
+- hosts: all
+- include: main.yml
+- include: postgres.yml
+- include: ruby.yml
+- include: java.yml

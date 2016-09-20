@@ -1,0 +1,13 @@
+- hosts: all
+  tasks:
+
+    - name: Install Java and IntelliJ
+      homebrew: name={{ item }}
+      with_items:
+        - intellij-idea
+        - java
+
+    - name: Install Pivotal IDE prefs
+      command: ./bin/ide_prefs --ide=intellij install
+      args:
+        chdir: ~/workspace/pivotal_ide_prefs/cli

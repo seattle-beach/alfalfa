@@ -1,6 +1,4 @@
 - hosts: all
-  # environment:
-  #   PATH: "/usr/local/bin:/Users/{{ ansible_env.USER }}/.rbenv/shims:{{ ansible_env.PATH }}"
 
   vars:
     repos:
@@ -30,7 +28,7 @@
       with_items: "{{ repos }}"
 
     - name: Set upstreams for repos
-      command: git remote add upstream https://github.com/{{ item.value }}/{{ item.key }}.git
+      shell: git remote show upstream || git remote add upstream https://github.com/{{ item.value }}/{{ item.key }}.git
       args:
         chdir: ~/workspace/{{ item.key }}
       ignore_errors: yes
@@ -102,7 +100,6 @@
         - gti
         - node
         - openssl
-        - postgresql
         - rbenv
         - tmux
         - watch
@@ -120,12 +117,9 @@
         - font-source-code-pro
         - google-chrome
         - google-drive
-        # - intellij-idea
         - iterm2
         - lastpass
-        # - java
         - macvim
-        # - rubymine
         - shiftit
         - sublime
         - postman
@@ -135,38 +129,6 @@
 
     - name: Create LaunchAgents dir
       file: path=~/Library/LaunchAgents state=directory
-    - name: Get Postgres launch agents
-      shell: ls /usr/local/opt/postgresql/*.plist
-      register: postgres_launch_agents
-    - name: Link Postgres launch agents
-      file: src={{ item }} dest=~/Library/LaunchAgents/{{ item | basename }} state=link
-      with_items: "{{ postgres_launch_agents.stdout_lines }}"
-
-    - name: Install Rubies
-      command: rbenv install {{ item }}
-      args:
-        creates: ~/.rbenv/versions/{{ item }}
-      with_items:
-        - 2.0.0-p648
-        - 2.2.3
-      environment:
-        PATH: "/usr/local/bin:/Users/{{ ansible_env.USER }}/.rbenv/shims:{{ ansible_env.PATH }}"
-    - name: Use Ruby 2.2.3
-      shell: rbenv global 2.2.3 && rbenv rehash
-      environment:
-        PATH: "/usr/local/bin:/Users/{{ ansible_env.USER }}/.rbenv/shims:{{ ansible_env.PATH }}"
-    - name: Install Ruby gems
-      command: gem install bundler
-      environment:
-        PATH: "/usr/local/bin:/Users/{{ ansible_env.USER }}/.rbenv/shims:{{ ansible_env.PATH }}"
-
-    - name: Install Pivotal IDE prefs
-      command: ./bin/ide_prefs --ide={{ item }} install
-      args:
-        chdir: ~/workspace/pivotal_ide_prefs/cli
-      with_items:
-        - intellij
-        - rubymine
 
     - name: Update OS X defaults
       my_defaults:

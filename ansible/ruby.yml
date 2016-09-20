@@ -1,0 +1,34 @@
+- hosts: all
+
+  environment:
+    PATH: "/usr/local/bin:/Users/{{ ansible_env.USER }}/.rbenv/shims:{{ ansible_env.PATH }}"
+
+  vars:
+    current_version: 2.3.1
+
+  tasks:
+
+    - name: Install rbenv
+      homebrew: name=rbenv
+
+    - name: Install Rubies
+      command: rbenv install {{ item }}
+      args:
+        creates: ~/.rbenv/versions/{{ item }}
+      with_items:
+        - 2.0.0-p648
+        - {{ current_version }}
+
+    - name: Use Ruby {{ current_version }}
+      shell: rbenv global {{ current_version }} && rbenv rehash
+
+    - name: Install Ruby gems
+      command: gem install bundler
+
+    - name: Install RubyMine
+      homebrew_cask: name=rubymine
+
+    - name: Install Pivotal IDE prefs
+      command: ./bin/ide_prefs --ide=rubymine install
+      args:
+        chdir: ~/workspace/pivotal_ide_prefs/cli
