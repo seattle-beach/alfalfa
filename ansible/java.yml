@@ -2,7 +2,7 @@
   tasks:
 
     - name: Install Java and IntelliJ
-      homebrew: name={{ item }}
+      homebrew_cask: name={{ item }}
       with_items:
         - intellij-idea
         - java
