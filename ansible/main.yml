@@ -1,6 +1,7 @@
 - hosts: all
   # environment:
   #   PATH: "/usr/local/bin:/Users/{{ ansible_env.USER }}/.rbenv/shims:{{ ansible_env.PATH }}"
+
   tasks:
     - name: Ensure that the .ssh directory exists
       file: path=~/.ssh state=directory
@@ -12,7 +13,7 @@
       git:
         repo: https://github.com/seattle-beach/{{ item }}.git
         dest: ~/workspace/{{ item }}
-      ignore_errors: yes
+      ignore_errors: yes # Ignore dirty repos
       with_items:
         - alfalfa
         - bash-it
@@ -23,21 +24,10 @@
       ping:
       become: yes
 
-    - name: Fix permissions on /usr/local/bin
-      file: path=/usr/local/bin owner={{ ansible_env.USER }} state=directory
-      become: yes
-
     - name: Install Homebrew
       shell: /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" < /dev/null
       args:
         creates: /usr/local/bin/brew
-
-    - name: Clean up existing config files
-      command: mv {{ item }} {{ item }}.orig
-      args:
-        creates: "{{ item }}.orig"
-      with_items:
-        - ~/.bash_profile
 
     - name: Symlink config files
       file: src=~/workspace/alfalfa/dotfiles/{{ item }} dest=~/{{ item }} state=link
@@ -81,7 +71,7 @@
       homebrew: name={{ item }}
       with_items:
         - ag
-#        - android
+        # - android
         - ansible
         - cf-cli
         - cowsay
@@ -89,6 +79,7 @@
         - git
         - git-duet
         - git-pair
+        - golang
         - gti
         - node
         - postgresql
@@ -109,12 +100,12 @@
         - font-source-code-pro
         - google-chrome
         - google-drive
-        - intellij-idea
+        # - intellij-idea
         - iterm2
         - lastpass
-        - java
+        # - java
         - macvim
-        - rubymine
+        # - rubymine
         - shiftit
         - sublime
         - postman
@@ -207,12 +198,6 @@
           key: menuIcon
           type: int
           value: 3
-
-    - name: Download golang
-      get_url: url=https://storage.googleapis.com/golang/go1.6.darwin-amd64.tar.gz dest=/tmp/
-    - name: Extract go library
-      command: tar -C /usr/local -xzf /tmp/go1.6.darwin-amd64.tar.gz
-
 
     - name: Install dockutil
       homebrew: name=dockutil

@@ -33,7 +33,7 @@ echo HOST > hosts
 ansible-playbook main.yml --ask-pass --ask-become-pass
 ```
 
-Depending on how you feel about cows, you might find it useful to ```export ANSIBLE_NOCOWS=1``` first.
+Depending on how you feel about cows, you might find it useful to `export ANSIBLE_NOCOWS=1` first.
 
 ### Local provisioning
 
@@ -41,17 +41,7 @@ Although it is less convenient than installing from an already-provisioned
 computer, Alfalfa can also be provisioned locally:
 
 ```
-# Install Homebrew
-/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-
-# Install Ansible
-brew install ansible
-
-# Clone the Alfalfa repo
-git clone https://github.com/seattle-beach/alfalfa.git ~/workspace/alfalfa
+bash < (curl -s https://raw.githubusercontent.com/seattle-beach/alfalfa/master/bootstrap.sh)
 cd ~/workspace/alfalfa/ansible
-
-# Provision the local machine
-echo localhost > hosts
 ansible-playbook main.yml --ask-pass --ask-become-pass
 ```
