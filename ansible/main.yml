@@ -190,7 +190,7 @@
           value: 3
 
     - name: import terminal profile
-      command: open ~/.dotfiles/Pivotal.terminal
+      command: open ~/workspace/alfalfa/dotfiles/Pivotal.terminal
     - name: set terminal profile to be the default
       my_defaults:
         domain: com.apple.Terminal
