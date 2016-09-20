@@ -2,6 +2,13 @@
   # environment:
   #   PATH: "/usr/local/bin:/Users/{{ ansible_env.USER }}/.rbenv/shims:{{ ansible_env.PATH }}"
 
+  vars:
+    repos:
+      - alfalfa
+      - bash-it
+      - pivotal_ide_prefs
+      - vim-config
+
   tasks:
     - name: Ensure that the .ssh directory exists
       file: path=~/.ssh state=directory
@@ -14,11 +21,23 @@
         repo: https://github.com/seattle-beach/{{ item }}.git
         dest: ~/workspace/{{ item }}
       ignore_errors: yes # Ignore dirty repos
-      with_items:
-        - alfalfa
-        - bash-it
-        - pivotal_ide_prefs
-        - vim-config
+      with_items: "{{ repos }}"
+
+    - name: Set SSH push remotes for repos
+      command: git remote set-url --push origin git@github.com:seattle-beach/{{ item }}.git
+      args:
+        chdir: ~/workspace/{{ item }}
+      with_items: "{{ repos }}"
+
+    - name: Set upstreams for repos
+      command: git remote add upstream https://github.com:{{ item.value }}/{{ item.key }}.git
+      args:
+        chdir: ~/workspace/{{ item.key }}
+      ignore_errors: yes
+      with_dict:
+        "bash-it": Bash-it
+        pivotal_ide_prefs: pivotal
+        "vim-config": pivotal
 
     - name: Authenticate sudo for Homebrew installation
       ping:
@@ -51,8 +70,8 @@
 
     - name: Install Vundle
       git:
-       repo: https://github.com/VundleVim/Vundle.vim.git
-       dest: ~/.vim/bundle/Vundle.vim
+        repo: https://github.com/VundleVim/Vundle.vim.git
+        dest: ~/.vim/bundle/Vundle.vim
     - name: Install Vundle plugins
       command: vim +PluginInstall +redraw +qall
 
