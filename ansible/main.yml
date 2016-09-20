@@ -171,9 +171,13 @@
           type: int
           value: 3
 
-    - name: import terminal profile
+    - name: Check if Terminal profile has been imported
+      command: defaults read com.apple.Terminal "Window Settings"
+      register: terminal_window_settings
+    - name: Import Terminal profile
       command: open ~/workspace/alfalfa/dotfiles/Pivotal.terminal
-    - name: set terminal profile to be the default
+      when: terminal_window_settings.stdout.find('Pivotal') == -1
+    - name: Set terminal profile to be the default
       my_defaults:
         domain: com.apple.Terminal
         key: "{{ item }} Window Settings"
