@@ -1,3 +1,4 @@
+- include: sudo.yml
 - hosts: all
   tasks:
 
