@@ -1,3 +1,5 @@
+- hosts: all # No-op play to get ansible_env
+
 - hosts: all
 
   environment:
