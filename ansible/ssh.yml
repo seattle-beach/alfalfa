@@ -17,5 +17,5 @@
     - include_vars: vault.yml
       when: not id_rsa_result.stat.exists
     - name: Copy id_rsa
-      copy: content="{{ id_rsa }}" dest=~/.ssh/id_rsa
+      copy: content="{{ id_rsa }}" dest=~/.ssh/id_rsa mode=0600
       when: not id_rsa_result.stat.exists
