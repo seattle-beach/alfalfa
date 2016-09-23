@@ -1,6 +1,7 @@
-- include: sudo.yml
 - hosts: all
   tasks:
+
+    - include: sudo.yml
 
     - name: Install Java and IntelliJ
       homebrew_cask: name={{ item }}

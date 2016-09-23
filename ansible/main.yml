@@ -8,7 +8,12 @@
       - vim-config
 
   tasks:
-    - include: ssh.yml
+
+    - name: Ensure that the .ssh directory exists
+      file: path=~/.ssh state=directory
+
+    - name: Ensure that the known_hosts file exists
+      file: path=~/.ssh/known_hosts state=touch
 
     # NOTE: This (sort of) loses unpushed commits. See https://github.com/ansible/ansible-modules-core/issues/614 for details,
     # but if this happens to you, use `git reflog` to retrieve them.
