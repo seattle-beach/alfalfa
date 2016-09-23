@@ -8,7 +8,7 @@
       - vim-config
 
   tasks:
-    -include: ssh.yml
+    - include: ssh.yml
 
     # NOTE: This (sort of) loses unpushed commits. See https://github.com/ansible/ansible-modules-core/issues/614 for details,
     # but if this happens to you, use `git reflog` to retrieve them.

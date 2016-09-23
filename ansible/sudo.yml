@@ -1,5 +1,3 @@
-- hosts: all
-  tasks:
-    - name: Authenticate sudo for app installations
-      ping:
-      become: yes
+- name: Authenticate sudo for app installations
+  ping:
+  become: yes

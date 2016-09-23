@@ -45,5 +45,5 @@ computer, Alfalfa can also be provisioned locally:
 ```
 bash < (curl -s https://raw.githubusercontent.com/seattle-beach/alfalfa/master/bootstrap.sh)
 cd ~/workspace/alfalfa/ansible
-ansible-playbook main.yml --ask-pass --ask-become-pass
+ansible-playbook main.yml --ask-pass --ask-become-passi --ask-vault-pass
 ```
