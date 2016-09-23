@@ -8,11 +8,7 @@
       - vim-config
 
   tasks:
-    - name: Ensure that the .ssh directory exists
-      file: path=~/.ssh state=directory
-
-    - name: Ensure that the known_hosts file exists
-      file: path=~/.ssh/known_hosts state=touch
+    -include: ssh.yml
 
     # NOTE: This (sort of) loses unpushed commits. See https://github.com/ansible/ansible-modules-core/issues/614 for details,
     # but if this happens to you, use `git reflog` to retrieve them.
@@ -39,10 +35,7 @@
         pivotal_ide_prefs: pivotal
         "vim-config": pivotal
 
-    - name: Authenticate sudo for Homebrew installation
-      ping:
-      become: yes
-
+    - include: sudo.yml
     - name: Install Homebrew
       shell: /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" < /dev/null
       args:
@@ -90,7 +83,6 @@
       homebrew: name={{ item }}
       with_items:
         - ag
-        # - android
         - ansible
         - cf-cli
         - cowsay
@@ -104,12 +96,10 @@
         - openssl
         - rbenv
         - tmux
+        - tree
         - watch
 
-    - name: Authenticate sudo for app installations
-      ping:
-      become: yes
-
+    - include: sudo.yml
     - name: Install Homebrew casks
       homebrew_cask: name={{ item }}
       with_items:
@@ -123,6 +113,7 @@
         - lastpass
         - macvim
         - shiftit
+        - slack
         - sublime
         - postman
 

@@ -30,8 +30,10 @@ brew install ansible
 git clone https://github.com/seattle-beach/alfalfa
 cd alfalfa/ansible
 echo HOST > hosts
-ansible-playbook main.yml --ask-pass --ask-become-pass
+ansible-playbook main.yml --ask-pass --ask-become-pass --ask-vault-pass
 ```
+
+Since this sets up SSH keys, subsequent runs should not require `ask-pass` or `ask-vault-pass`.
 
 Depending on how you feel about cows, you might find it useful to `export ANSIBLE_NOCOWS=1` first.
 

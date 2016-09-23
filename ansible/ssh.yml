@@ -1,0 +1,21 @@
+- hosts: all
+  tasks:
+    - name: Ensure that the .ssh directory exists
+      file: path=~/.ssh state=directory
+
+    - name: Ensure that the known_hosts file exists
+      file: path=~/.ssh/known_hosts state=touch
+
+    - name: Add ourselves to authorized_keys
+      authorized_key: user={{ ansible_env.USER }} key="{{ lookup('file', '~/workspace/alfalfa/id_rsa.pub') }}"
+
+    - name: Copy id_rsa.pub
+      copy: src=~/workspace/alfalfa/id_rsa.pub dest=~/.ssh/id_rsa.pub
+
+    - stat: path=~/.ssh/id_rsa
+      register: id_rsa_result
+    - include_vars: vault.yml
+      when: not id_rsa_result.stat.exists
+    - name: Copy id_rsa
+      copy: content="{{ id_rsa }}" dest=~/.ssh/id_rsa
+      when: not id_rsa_result.stat.exists
