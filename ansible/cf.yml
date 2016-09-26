@@ -1,0 +1,28 @@
+- include: sudo.yml
+
+- hosts: all
+  tasks:
+
+    - name: Install dependencies
+      homebrew_cask: name={{ item }}
+      with_items:
+        - vagrant
+        - virtualbox
+
+    - name: Download git repos
+      git:
+        repo: https://github.com/{{ item }}.git
+        dest: ~/workspace/{{ item | basename }}
+        recursive: no
+      ignore_errors: yes # Ignore dirty repos
+      with_items:
+        - cloudfoundry/bosh-lite
+        - cloudfoundry/cf-release
+        - cloudfoundry/diego-release
+
+    # https://github.com/cloudfoundry/bosh-lite/pull/389/files
+    - name: Fix bosh-lite Vagrant box
+      lineinfile:
+        dest: ~/workspace/bosh-lite/Vagrantfile
+        insertafter: "  config.vm.box = 'cloudfoundry/bosh-lite'"
+        line: "  config.ssh.insert_key = false"
