@@ -30,3 +30,11 @@
       command: /usr/local/bin/brew install spiff.rb
       args:
         chdir: ~/workspace/alfalfa/formulae
+
+    - name: Suspend Vagrant VirtualBox VMs on logout
+      my_defaults:
+        domain: com.apple.loginwindow
+        key: LogoutHook
+        type: string
+        value: ~/workspace/alfalfa/cf/suspend_all.sh
+      become: yes
