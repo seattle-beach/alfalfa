@@ -119,7 +119,7 @@
         - macvim
         - shiftit
         - slack
-        - sublime
+        - sublime-text
         - postman
 
     - name: Install gi
