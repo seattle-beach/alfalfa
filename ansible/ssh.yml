@@ -1,0 +1,11 @@
+- hosts: all
+  tasks:
+
+    - name: Make an SSH key
+      command: ssh-keygen -b 4096 -t rsa -f ~/.ssh/id_rsa -q -N ""
+      args:
+        creates: ~/.ssh/id_rsa
+
+    - name: Add the created SSH key to authorized_keys
+      authorized_key: user={{ ansible_env.USER }} key="{{ item }}"
+      with_file: ~/.ssh/id_rsa.pub
