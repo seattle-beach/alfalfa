@@ -1,7 +1,6 @@
-- include: sudo.yml
-
 - hosts: all
   tasks:
+    - include: sudo.yml
 
     - name: Install dependencies
       homebrew_cask: name={{ item }}
@@ -26,3 +25,8 @@
         dest: ~/workspace/bosh-lite/Vagrantfile
         insertafter: "  config.vm.box = 'cloudfoundry/bosh-lite'"
         line: "  config.ssh.insert_key = false"
+
+    - name: Install Spiff
+      command: /usr/local/bin/brew install spiff.rb
+      args:
+        chdir: ~/workspace/alfalfa/formulae
