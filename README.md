@@ -11,12 +11,15 @@ scripting.
 
 ## Usage
 
+### Local Provisioning
 
+```
+bash <(curl -s https://raw.githubusercontent.com/seattle-beach/alfalfa/master/bootstrap.sh)
+cd ~/workspace/alfalfa/ansible
+ansible-playbook main.yml --ask-pass --ask-become-pass
+```
 
-## Provisioning
-
-On the machine to be provisioned, change the computer name in System
-Preferences -> Sharing and then get past the first-run sudo disclaimer:
+### Remote Provisioning
 
 ```
 sudo -v && sudo -k
@@ -36,14 +39,3 @@ ansible-playbook main.yml --ask-pass --ask-become-pass
 Since this sets up SSH keys, subsequent runs should not require `ask-pass`.
 
 Depending on how you feel about cows, you might find it useful to `export ANSIBLE_NOCOWS=1` first.
-
-### Local provisioning
-
-Although it is less convenient than installing from an already-provisioned
-computer, Alfalfa can also be provisioned locally:
-
-```
-bash <(curl -s https://raw.githubusercontent.com/seattle-beach/alfalfa/master/bootstrap.sh)
-cd ~/workspace/alfalfa/ansible
-ansible-playbook main.yml --ask-pass --ask-become-pass
-```
