@@ -40,3 +40,5 @@
 	singlekey = true
 [merge]
 	conflictstyle = diff3
+[credential]
+	helper = 
