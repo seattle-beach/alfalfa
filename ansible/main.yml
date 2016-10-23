@@ -110,12 +110,6 @@
         - tree
         - watch
       when: ansible_os_family == "Darwin"
-    - name: Ensure python-apt is installed
-      command: >
-        apt-get install python-apt -y -q
-        creates=/usr/share/doc/python-apt
-      sudo: yes
-      when: ansible_os_family == "Debian"
 
     - name: Install Apt repos
       apt_repository: repo={{ item }} state=present update_cache=yes
