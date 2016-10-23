@@ -45,6 +45,7 @@
       shell: /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" < /dev/null
       args:
         creates: /usr/local/bin/brew
+      when: ansible_os_family == "Darwin"
 
     - name: Symlink config files
       file: src=~/workspace/alfalfa/dotfiles/{{ item }} dest=~/{{ item }} state=link
@@ -80,9 +81,14 @@
         - cloudfoundry/tap
         - git-duet/tap
         - pivotal/tap
+      when: ansible_os_family == "Darwin"
 
     - name: Update Homebrew
       homebrew: update_homebrew=yes
+      when: ansible_os_family == "Darwin"
+
+    #- include: cf_cli.yml
+    #  when: ansible_os_family == "Debian"
 
     - name: Install Homebrew formulae
       homebrew: name={{ item }}
@@ -103,6 +109,41 @@
         - tmux
         - tree
         - watch
+      when: ansible_os_family == "Darwin"
+    - name: Ensure python-apt is installed
+      command: >
+        apt-get install python-apt -y -q
+        creates=/usr/share/doc/python-apt
+      sudo: yes
+      when: ansible_os_family == "Debian"
+
+    - name: Install Apt repos
+      apt_repository: repo={{ item }} state=present update_cache=yes
+      with_items:
+        - "ppa:ansible/ansible"
+        - "deb http://archive.canonical.com/ubuntu {{ ansible_distribution_release }} partner"
+      sudo: yes
+      when: ansible_os_family == "Debian"
+
+    - include: sudo.yml
+    - name: Install Apt formulae
+      apt: name={{ item }} state=latest
+      with_items:
+        - software-properties-common
+        - ansible
+        - build-essential
+        - cowsay
+        - direnv
+        - git
+        - golang
+        - google-chrome-stable
+        - openssl
+        - rbenv
+        - silversearcher-ag
+        - tmux
+        - tree
+      sudo: yes
+      when: ansible_os_family == "Debian"
 
     - include: sudo.yml
     - name: Install Homebrew casks
@@ -121,12 +162,15 @@
         - slack
         - sublime-text
         - postman
+      when: ansible_os_family == "Darwin"
 
     - name: Install gi
       get_url: url=https://github.com/sgravrock/gi/releases/download/0.0.1/gi-0.0.1-macosx dest=/usr/local/bin/gi mode=0755
+      when: ansible_os_family == "Darwin"
 
     - name: Create LaunchAgents dir
       file: path=~/Library/LaunchAgents state=directory
+      when: ansible_os_family == "Darwin"
 
     - name: Update OS X defaults
       my_defaults:
@@ -168,13 +212,18 @@
           key: menuIcon
           type: int
           value: 3
+      when: ansible_os_family == "Darwin"
 
     - name: Check if Terminal profile has been imported
       command: defaults read com.apple.Terminal "Window Settings"
       register: terminal_window_settings
+      when: ansible_os_family == "Darwin"
     - name: Import Terminal profile
       command: open ~/workspace/alfalfa/dotfiles/Pivotal.terminal
-      when: terminal_window_settings.stdout.find('Pivotal') == -1
+      when: 
+        - ansible_os_family == "Darwin"
+        - terminal_window_settings.stdout.find('Pivotal') == -1
+
     - name: Set terminal profile to be the default
       my_defaults:
         domain: com.apple.Terminal
@@ -184,18 +233,23 @@
       with_items:
         - Default
         - Startup
+      when: ansible_os_family == "Darwin"
 
     - name: Install dockutil
       homebrew: name=dockutil
+      when: ansible_os_family == "Darwin"
     - name: Remove all icons from the Dock
       command: dockutil --remove all
       environment:
         PATH: "/usr/local/bin:/Users/{{ ansible_env.USER }}/.rbenv/shims:{{ ansible_env.PATH }}"
+      when: ansible_os_family == "Darwin"
     - name: Uninstall dockutil
       homebrew: name=dockutil state=absent
+      when: ansible_os_family == "Darwin"
     - name: Restart the Dock
       command: killall Dock
       ignore_errors: yes
+      when: ansible_os_family == "Darwin"
 
     - name: Set login items
       command: ~/workspace/alfalfa/bin/addLoginItem /Applications/{{ item }}.app
@@ -204,24 +258,31 @@
       with_items:
         - Flycut
         - ShiftIt
+      when: ansible_os_family == "Darwin"
 
     - name: Check if ShiftIt is enabled in Accessibility whitelist
       shell: echo "SELECT allowed FROM access WHERE client = 'org.shiftitapp.ShiftIt';" | sqlite3 /Library/Application\ Support/com.apple.TCC/TCC.db
       become: yes
       register: shiftit_out
+      when: ansible_os_family == "Darwin"
     - name: Add ShiftIt to Accessibility whitelist
       shell: echo "INSERT INTO access VALUES('kTCCServiceAccessibility','org.shiftitapp.ShiftIt',0,1,1,NULL,NULL);" | sqlite3 /Library/Application\ Support/com.apple.TCC/TCC.db
       become: yes
-      when: not shiftit_out.stdout
+      when: 
+        - ansible_os_family == "Darwin"
+        - not shiftit_out.stdout
     - name: Enable ShiftIt in Accessiblity whitelist
       shell: echo "UPDATE access SET allowed = 1 WHERE client = 'org.shiftitapp.ShiftIt';" | sqlite3 /Library/Application\ Support/com.apple.TCC/TCC.db
       become: yes
-      when: shiftit_out.stdout and shiftit_out.stdout != "1"
+      when: 
+        - ansible_os_family == "Darwin"
+        - shiftit_out.stdout and shiftit_out.stdout != "1"
 
     - name: Start OS X apps
       shell: pgrep "{{ item.key }}" || open -a "{{ item.value }}"
       with_dict:
         ShiftIt: ShiftIt.app
         Flycut: Flycut.app
+      when: ansible_os_family == "Darwin"
 
 - include: ssh.yml
