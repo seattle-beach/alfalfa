@@ -131,6 +131,7 @@
         - git
         - golang
         - google-chrome-stable
+        - libssl-dev
         - openssl
         - rbenv
         - silversearcher-ag
@@ -138,6 +139,8 @@
         - tree
       sudo: yes
       when: ansible_os_family == "Debian"
+
+    - include: node.yml
 
     - include: sudo.yml
     - name: Install Homebrew casks
