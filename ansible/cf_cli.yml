@@ -1,5 +1,5 @@
 - name: Check if cf_ci is installed
-  command: dpkg-query -W cf_cli
+  command: dpkg-query -W cf-cli
   register: cf_cli_check_deb
   failed_when: cf_cli_check_deb.rc > 1
   changed_when: cf_cli_check_deb.rc == 1
@@ -10,9 +10,9 @@
     dest="/tmp/cf_cli.deb"
   with_items:
     - "https://cli.run.pivotal.io/stable?release=debian64"
-  when: vagrant_check_deb.rc == 1
+  when: cf_cli_check_deb.rc == 1
 
 - name: Install my_package
   apt: deb="/tmp/cf_cli.deb"
   sudo: true
-  when: vagrant_check_deb.rc == 1
+  when: cf_cli_check_deb.rc == 1

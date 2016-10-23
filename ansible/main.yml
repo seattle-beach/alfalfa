@@ -87,8 +87,8 @@
       homebrew: update_homebrew=yes
       when: ansible_os_family == "Darwin"
 
-    #- include: cf_cli.yml
-    #  when: ansible_os_family == "Debian"
+    - include: cf_cli.yml
+      when: ansible_os_family == "Debian"
 
     - name: Install Homebrew formulae
       homebrew: name={{ item }}
