@@ -13,10 +13,16 @@ scripting.
 
 ### Local Provisioning
 
+#### OSX
 ```
 bash <(curl -s https://raw.githubusercontent.com/seattle-beach/alfalfa/master/bootstrap.sh)
 cd ~/workspace/alfalfa/ansible
 ansible-playbook main.yml --ask-pass --ask-become-pass
+```
+
+#### Ubuntu
+```
+bash <(curl -s https://raw.githubusercontent.com/seattle-beach/alfalfa/master/bootstrap_ubuntu.sh)
 ```
 
 ### Remote Provisioning
