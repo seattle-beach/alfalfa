@@ -69,6 +69,11 @@
         vim-config: ~/.vim
         vim-config/vimrc: ~/.vimrc
 
+    - name: Install Spacemacs
+      git:
+        repo: https://github.com/syl20bnr/spacemacs
+        dest: ~/.emacs.d
+
     - name: Install Vundle
       git:
         repo: https://github.com/VundleVim/Vundle.vim.git
