@@ -116,6 +116,8 @@
         - name: tmux
         - name: tree
         - name: watch
+    - name: Link Homebrew apps
+      command: /usr/local/bin/brew linkapps
 
     - include: sudo.yml
     - name: Create Caskroom directory
