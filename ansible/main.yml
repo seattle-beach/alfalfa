@@ -202,7 +202,7 @@
     - name: Remove all icons from the Dock
       command: /usr/local/bin/dockutil --remove all
     - name: Add /Applications/ to the Dock
-      command: /usr/local/bin/dockutil --add /Applications/
+      command: /usr/local/bin/dockutil --add /Applications/ --sort name
     - name: Restart the Dock
       command: killall Dock
       ignore_errors: yes
