@@ -55,6 +55,7 @@
         - .git-authors
         - .gitconfig
         - .gitignore_global
+        - .spacemacs
 
     - name: Symlink .pairs
       file: src=~/.git-authors dest=~/.pairs state=link
