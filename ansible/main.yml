@@ -117,6 +117,8 @@
         - name: watch
 
     - include: sudo.yml
+    - name: Create Caskroom directory
+      file: path=/usr/local/Caskroom state=directory
     - name: Install Homebrew casks
       homebrew_cask: name={{ item }}
       with_items:
@@ -133,7 +135,6 @@
         - slack
         - sublime-text
         - postman
-      become: yes
 
     - name: Make vim use MacVim
       file: src=/usr/local/bin/mvim dest=/usr/local/bin/vim state=link
