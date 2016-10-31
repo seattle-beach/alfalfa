@@ -19,6 +19,15 @@ cd ~/workspace/alfalfa/ansible
 ansible-playbook main.yml --ask-pass --ask-become-pass
 ```
 
+You will need to type `yes` a couple of times due to SSH `known_hosts`
+schenanigans until our playbook gets around to fixing it.
+
+### Post-Install
+
+Sierra does not allow modifying `TCC.db` without jumping through significant
+hoops, so you'll need to manually enable apps that require accessibility access
+(e.g., ShiftIt).
+
 ### Remote Provisioning
 
 ```
