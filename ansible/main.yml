@@ -88,24 +88,28 @@
       homebrew: update_homebrew=yes
 
     - name: Install Homebrew formulae
-      homebrew: name={{ item }}
+      homebrew:
+        name: "{{ item.name }}"
+        install_options: "{{ item.install_options | default(omit) }}"
       with_items:
-        - ag
-        - ansible
-        - cf-cli
-        - cowsay
-        - direnv
-        - git
-        - git-duet
-        - git-pair
-        - golang
-        - gti
-        - node
-        - openssl
-        - rbenv
-        - tmux
-        - tree
-        - watch
+        - name: ag
+        - name: ansible
+        - name: cf-cli
+        - name: cowsay
+        - name: direnv
+        - name: emacs
+          install_options: with-cocoa
+        - name: git
+        - name: git-duet
+        - name: git-pair
+        - name: golang
+        - name: gti
+        - name: node
+        - name: openssl
+        - name: rbenv
+        - name: tmux
+        - name: tree
+        - name: watch
 
     - include: sudo.yml
     - name: Install Homebrew casks
