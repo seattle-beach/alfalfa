@@ -59,6 +59,9 @@
     - name: Symlink .pairs
       file: src=~/.git-authors dest=~/.pairs state=link
 
+    - name: Symlink Seattle Wiki bookmark file
+      file: src="~/workspace/alfalfa/dotfiles/Seattle Wiki.url" dest="~/Desktop/Seattle Wiki.url" state=link
+
     - name: Symlink child repositories
       file: src=~/workspace/{{ item.key }} dest={{ item.value }} state=link
       with_dict:
@@ -123,6 +126,9 @@
         - postman
       become: yes
 
+    - name: Make vim use MacVim
+      file: src=/usr/local/bin/mvim dest=/usr/local/bin/vim state=link
+
     - name: Install gi
       get_url: url=https://github.com/sgravrock/gi/releases/download/0.0.1/gi-0.0.1-macosx dest=/usr/local/bin/gi mode=0755
 
@@ -169,6 +175,11 @@
           key: menuIcon
           type: int
           value: 3
+        - # don't use natural scrolling
+          domain: NSGlobalDomain
+          key: com.apple.swipescrolldirection
+          type: bool
+          value: false
 
     - name: Check if Terminal profile has been imported
       command: defaults read com.apple.Terminal "Window Settings"
@@ -189,11 +200,9 @@
     - name: Install dockutil
       homebrew: name=dockutil
     - name: Remove all icons from the Dock
-      command: dockutil --remove all
-      environment:
-        PATH: "/usr/local/bin:/Users/{{ ansible_env.USER }}/.rbenv/shims:{{ ansible_env.PATH }}"
-    - name: Uninstall dockutil
-      homebrew: name=dockutil state=absent
+      command: /usr/local/bin/dockutil --remove all
+    - name: Add /Applications/ to the Dock
+      command: /usr/local/bin/dockutil --add /Applications/
     - name: Restart the Dock
       command: killall Dock
       ignore_errors: yes
