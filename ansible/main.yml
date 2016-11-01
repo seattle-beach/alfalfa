@@ -105,7 +105,7 @@
       file: path=~/Library/LaunchAgents state=directory
 
     - name: Update OS X defaults
-      my_defaults:
+      osx_defaults:
         domain: "{{ item.domain | default(omit) }}"
         key: "{{ item.key }}"
         type: "{{ item.type }}"
@@ -157,7 +157,7 @@
       command: open ~/workspace/alfalfa/dotfiles/Pivotal.terminal
       when: terminal_window_settings.stdout.find('Pivotal') == -1
     - name: Set terminal profile to be the default
-      my_defaults:
+      osx_defaults:
         domain: com.apple.Terminal
         key: "{{ item }} Window Settings"
         type: string
