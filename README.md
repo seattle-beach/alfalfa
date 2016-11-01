@@ -11,6 +11,9 @@ scripting.
 
 ## Usage
 
+Depending on how you feel about cows, you might find it useful to `export
+ANSIBLE_NOCOWS=1` first.
+
 ### Local Provisioning
 
 ```
@@ -39,11 +42,13 @@ hoops, so you'll need to manually enable apps that require accessibility access
 
 ### Remote Provisioning
 
+First, the remote machine needs to agree to the `sudo` disclaimer:
+
 ```
 sudo -v && sudo -k
 ```
 
-On the control machine:
+Then, on the control machine:
 
 ```
 brew install ansible
@@ -53,7 +58,3 @@ cd alfalfa/ansible
 echo HOST > hosts
 ansible-playbook main.yml --ask-pass --ask-become-pass
 ```
-
-Since this sets up SSH keys, subsequent runs should not require `ask-pass`.
-
-Depending on how you feel about cows, you might find it useful to `export ANSIBLE_NOCOWS=1` first.
