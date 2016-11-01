@@ -2,6 +2,7 @@ tap 'caskroom/cask'
 tap 'caskroom/fonts'
 tap 'cloudfoundry/tap'
 tap 'git-duet/tap'
+tap 'homebrew/services'
 tap 'pivotal/tap'
 tap 'seattle-beach/tap'
 
