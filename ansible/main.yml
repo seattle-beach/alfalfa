@@ -90,6 +90,7 @@
     - name: Tap Homebrew Bundle
       homebrew_tap: tap=Homebrew/bundle
 
+    - include: sudo.yml
     - name: Install from the Brewfile
       command: brew bundle
       args:
