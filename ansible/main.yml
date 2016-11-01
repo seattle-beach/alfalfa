@@ -29,11 +29,11 @@
       ignore_errors: yes # Ignore dirty repos
       with_items: "{{ repos }}"
 
-    - name: Set SSH push remotes for repos
-      command: git remote set-url --push origin git@github.com:seattle-beach/{{ item }}.git
-      args:
-        chdir: ~/workspace/{{ item }}
-      with_items: "{{ repos }}"
+    # - name: Set SSH push remotes for repos
+    #   command: git remote set-url --push origin git@github.com:seattle-beach/{{ item }}.git
+    #   args:
+    #     chdir: ~/workspace/{{ item }}
+    #   with_items: "{{ repos }}"
 
     - name: Set upstreams for repos
       shell: git remote show upstream || git remote add upstream https://github.com/{{ item.value }}/{{ item.key }}.git
