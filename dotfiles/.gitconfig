@@ -41,4 +41,4 @@
 [merge]
 	conflictstyle = diff3
 [credential]
-	helper = 
+	helper = cache --timeout 14400
