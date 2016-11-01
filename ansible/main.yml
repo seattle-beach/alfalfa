@@ -1,4 +1,7 @@
 - hosts: all
+  # No-op task to set ansible_env (see https://github.com/ansible/ansible/issues/14655)
+
+- hosts: all
 
   vars:
     repos:
@@ -7,8 +10,10 @@
       - pivotal_ide_prefs
       - vim-config
 
-  tasks:
+  environment:
+    PATH: /usr/local/bin:{{ ansible_env.PATH }}
 
+  tasks:
     - name: Ensure that the .ssh directory exists
       file: path=~/.ssh state=directory
 
@@ -55,9 +60,13 @@
         - .git-authors
         - .gitconfig
         - .gitignore_global
+        - .spacemacs
 
     - name: Symlink .pairs
       file: src=~/.git-authors dest=~/.pairs state=link
+
+    - name: Symlink Seattle Wiki bookmark file
+      file: src="~/workspace/alfalfa/dotfiles/Seattle Wiki.url" dest="~/Desktop/Seattle Wiki.url" state=link
 
     - name: Symlink child repositories
       file: src=~/workspace/{{ item.key }} dest={{ item.value }} state=link
@@ -66,6 +75,11 @@
         vim-config: ~/.vim
         vim-config/vimrc: ~/.vimrc
 
+    - name: Install Spacemacs
+      git:
+        repo: https://github.com/syl20bnr/spacemacs
+        dest: ~/.emacs.d
+
     - name: Install Vundle
       git:
         repo: https://github.com/VundleVim/Vundle.vim.git
@@ -73,63 +87,26 @@
     - name: Install Vundle plugins
       command: vim +PluginInstall +redraw +qall
 
-    - name: Tap Homebrew repositories
-      homebrew_tap: tap={{ item }}
-      with_items:
-        - caskroom/fonts
-        - cloudfoundry/tap
-        - git-duet/tap
-        - pivotal/tap
-
-    - name: Update Homebrew
-      homebrew: update_homebrew=yes
-
-    - name: Install Homebrew formulae
-      homebrew: name={{ item }}
-      with_items:
-        - ag
-        - ansible
-        - cf-cli
-        - cowsay
-        - direnv
-        - git
-        - git-duet
-        - git-pair
-        - golang
-        - gti
-        - node
-        - openssl
-        - rbenv
-        - tmux
-        - tree
-        - watch
+    - name: Tap Homebrew Bundle
+      homebrew_tap: tap=Homebrew/bundle
 
     - include: sudo.yml
-    - name: Install Homebrew casks
-      homebrew_cask: name={{ item }}
-      with_items:
-        - flycut
-        - font-hack
-        - font-sauce-code-powerline
-        - font-source-code-pro
-        - google-chrome
-        - google-drive
-        - iterm2
-        - lastpass
-        - macvim
-        - shiftit
-        - slack
-        - sublime-text
-        - postman
+    - name: Install from the Brewfile
+      command: brew bundle
+      args:
+        chdir: ~/workspace/alfalfa
 
-    - name: Install gi
-      get_url: url=https://github.com/sgravrock/gi/releases/download/0.0.1/gi-0.0.1-macosx dest=/usr/local/bin/gi mode=0755
+    - name: Link Homebrew apps
+      command: brew linkapps
+
+    - name: Make vim use MacVim
+      file: src=/usr/local/bin/mvim dest=/usr/local/bin/vim state=link
 
     - name: Create LaunchAgents dir
       file: path=~/Library/LaunchAgents state=directory
 
     - name: Update OS X defaults
-      my_defaults:
+      osx_defaults:
         domain: "{{ item.domain | default(omit) }}"
         key: "{{ item.key }}"
         type: "{{ item.type }}"
@@ -168,6 +145,11 @@
           key: menuIcon
           type: int
           value: 3
+        - # don't use natural scrolling
+          domain: NSGlobalDomain
+          key: com.apple.swipescrolldirection
+          type: bool
+          value: false
 
     - name: Check if Terminal profile has been imported
       command: defaults read com.apple.Terminal "Window Settings"
@@ -176,7 +158,7 @@
       command: open ~/workspace/alfalfa/dotfiles/Pivotal.terminal
       when: terminal_window_settings.stdout.find('Pivotal') == -1
     - name: Set terminal profile to be the default
-      my_defaults:
+      osx_defaults:
         domain: com.apple.Terminal
         key: "{{ item }} Window Settings"
         type: string
@@ -189,10 +171,8 @@
       homebrew: name=dockutil
     - name: Remove all icons from the Dock
       command: dockutil --remove all
-      environment:
-        PATH: "/usr/local/bin:/Users/{{ ansible_env.USER }}/.rbenv/shims:{{ ansible_env.PATH }}"
-    - name: Uninstall dockutil
-      homebrew: name=dockutil state=absent
+    - name: Add /Applications/ to the Dock
+      command: dockutil --add /Applications/ --sort name
     - name: Restart the Dock
       command: killall Dock
       ignore_errors: yes
@@ -204,19 +184,6 @@
       with_items:
         - Flycut
         - ShiftIt
-
-    - name: Check if ShiftIt is enabled in Accessibility whitelist
-      shell: echo "SELECT allowed FROM access WHERE client = 'org.shiftitapp.ShiftIt';" | sqlite3 /Library/Application\ Support/com.apple.TCC/TCC.db
-      become: yes
-      register: shiftit_out
-    - name: Add ShiftIt to Accessibility whitelist
-      shell: echo "INSERT INTO access VALUES('kTCCServiceAccessibility','org.shiftitapp.ShiftIt',0,1,1,NULL,NULL);" | sqlite3 /Library/Application\ Support/com.apple.TCC/TCC.db
-      become: yes
-      when: not shiftit_out.stdout
-    - name: Enable ShiftIt in Accessiblity whitelist
-      shell: echo "UPDATE access SET allowed = 1 WHERE client = 'org.shiftitapp.ShiftIt';" | sqlite3 /Library/Application\ Support/com.apple.TCC/TCC.db
-      become: yes
-      when: shiftit_out.stdout and shiftit_out.stdout != "1"
 
     - name: Start OS X apps
       shell: pgrep "{{ item.key }}" || open -a "{{ item.value }}"

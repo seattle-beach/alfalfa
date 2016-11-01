@@ -11,6 +11,9 @@ scripting.
 
 ## Usage
 
+Depending on how you feel about cows, you might find it useful to `export
+ANSIBLE_NOCOWS=1` first.
+
 ### Local Provisioning
 
 ```
@@ -19,13 +22,33 @@ cd ~/workspace/alfalfa/ansible
 ansible-playbook main.yml --ask-pass --ask-become-pass
 ```
 
+You will need to type `yes` a couple of times due to SSH `known_hosts`
+schenanigans until our playbook gets around to fixing it.
+
+### Notes
+
+The base Alfalfa playbook (`main.yml`) balances having a base set of tools for
+a workstation with the amount of time required to run. As such, there are some
+other playbooks included with Alfalfa that can be installed to finish
+customizing a new install:
+
+- `java.yml`
+- `ruby.yml`
+- `postgres.yml`
+
+Sierra does not allow modifying `TCC.db` without jumping through significant
+hoops, so you'll need to manually enable apps that require accessibility access
+(e.g., ShiftIt).
+
 ### Remote Provisioning
+
+First, the remote machine needs to agree to the `sudo` disclaimer:
 
 ```
 sudo -v && sudo -k
 ```
 
-On the control machine:
+Then, on the control machine:
 
 ```
 brew install ansible
@@ -35,7 +58,3 @@ cd alfalfa/ansible
 echo HOST > hosts
 ansible-playbook main.yml --ask-pass --ask-become-pass
 ```
-
-Since this sets up SSH keys, subsequent runs should not require `ask-pass`.
-
-Depending on how you feel about cows, you might find it useful to `export ANSIBLE_NOCOWS=1` first.
