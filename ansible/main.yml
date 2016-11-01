@@ -101,9 +101,6 @@
     - name: Make vim use MacVim
       file: src=/usr/local/bin/mvim dest=/usr/local/bin/vim state=link
 
-    - name: Install gi
-      get_url: url=https://github.com/sgravrock/gi/releases/download/0.0.1/gi-0.0.1-macosx dest=/usr/local/bin/gi mode=0755
-
     - name: Create LaunchAgents dir
       file: path=~/Library/LaunchAgents state=directory
 
