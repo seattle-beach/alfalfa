@@ -22,7 +22,16 @@ ansible-playbook main.yml --ask-pass --ask-become-pass
 You will need to type `yes` a couple of times due to SSH `known_hosts`
 schenanigans until our playbook gets around to fixing it.
 
-### Post-Install
+### Notes
+
+The base Alfalfa playbook (`main.yml`) balances having a base set of tools for
+a workstation with the amount of time required to run. As such, there are some
+other playbooks included with Alfalfa that can be installed to finish
+customizing a new install:
+
+- `java.yml`
+- `ruby.yml`
+- `postgres.yml`
 
 Sierra does not allow modifying `TCC.db` without jumping through significant
 hoops, so you'll need to manually enable apps that require accessibility access
