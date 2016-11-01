@@ -1,4 +1,7 @@
 - hosts: all
+  # No-op task to set ansible_env (see https://github.com/ansible/ansible/issues/14655)
+
+- hosts: all
 
   vars:
     repos:
@@ -7,8 +10,10 @@
       - pivotal_ide_prefs
       - vim-config
 
-  tasks:
+  environment:
+    PATH: /usr/local/bin:{{ ansible_env.PATH }}
 
+  tasks:
     - name: Ensure that the .ssh directory exists
       file: path=~/.ssh state=directory
 
@@ -82,62 +87,16 @@
     - name: Install Vundle plugins
       command: vim +PluginInstall +redraw +qall
 
-    - name: Tap Homebrew repositories
-      homebrew_tap: tap={{ item }}
-      with_items:
-        - caskroom/fonts
-        - cloudfoundry/tap
-        - git-duet/tap
-        - pivotal/tap
+    - name: Tap Homebrew Bundle
+      homebrew_tap: tap=Homebrew/bundle
 
-    - name: Update Homebrew
-      homebrew: update_homebrew=yes
+    - name: Install from the Brewfile
+      command: brew bundle
+      args:
+        chdir: ~/workspace/alfalfa
 
-    - name: Install Homebrew formulae
-      homebrew:
-        name: "{{ item.name }}"
-        install_options: "{{ item.install_options | default(omit) }}"
-      with_items:
-        - name: ag
-        - name: ansible
-        - name: cf-cli
-        - name: cowsay
-        - name: direnv
-        - name: emacs
-          install_options: with-cocoa
-        - name: git
-        - name: git-duet
-        - name: git-pair
-        - name: golang
-        - name: gti
-        - name: node
-        - name: openssl
-        - name: rbenv
-        - name: tmux
-        - name: tree
-        - name: watch
     - name: Link Homebrew apps
-      command: /usr/local/bin/brew linkapps
-
-    - include: sudo.yml
-    - name: Create Caskroom directory
-      file: path=/usr/local/Caskroom state=directory
-    - name: Install Homebrew casks
-      homebrew_cask: name={{ item }}
-      with_items:
-        - flycut
-        - font-hack
-        - font-source-code-pro-for-powerline
-        - font-source-code-pro
-        - google-chrome
-        - google-drive
-        - iterm2
-        - lastpass
-        - macvim
-        - shiftit
-        - slack
-        - sublime-text
-        - postman
+      command: brew linkapps
 
     - name: Make vim use MacVim
       file: src=/usr/local/bin/mvim dest=/usr/local/bin/vim state=link
@@ -213,9 +172,9 @@
     - name: Install dockutil
       homebrew: name=dockutil
     - name: Remove all icons from the Dock
-      command: /usr/local/bin/dockutil --remove all
+      command: dockutil --remove all
     - name: Add /Applications/ to the Dock
-      command: /usr/local/bin/dockutil --add /Applications/ --sort name
+      command: dockutil --add /Applications/ --sort name
     - name: Restart the Dock
       command: killall Dock
       ignore_errors: yes
