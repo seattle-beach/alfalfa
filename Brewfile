@@ -22,6 +22,7 @@ brew 'cloudfoundry/tap/cf-cli'
 brew 'git-duet/tap/git-duet'
 brew 'pivotal/tap/git-pair'
 brew 'seattle-beach/tap/gi'
+brew 'cowsay'
 
 cask 'flycut'
 cask 'font-hack'
