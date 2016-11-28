@@ -94,7 +94,7 @@
     - file:
         path: /usr/local/Caskroom
         state: directory
-        user: "{{ ansible_user_id }}"
+        owner: "{{ ansible_user_id }}"
         group: staff
       become: yes
     - name: Install from the Brewfile
