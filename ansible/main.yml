@@ -91,7 +91,12 @@
       homebrew_tap: tap=Homebrew/bundle
 
     - include: sudo.yml
-    - file: path=/usr/local/Caskroom state=directory
+    - file:
+        path: /usr/local/Caskroom
+        state: directory
+        user: "{{ ansible_user_id }}"
+        group: staff
+      become: yes
     - name: Install from the Brewfile
       command: brew bundle
       args:
