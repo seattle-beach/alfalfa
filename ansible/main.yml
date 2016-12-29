@@ -58,6 +58,7 @@
         - .bundle
         - .gemrc
         - .git-authors
+        - .git-together
         - .gitconfig
         - .gitignore_global
         - .spacemacs

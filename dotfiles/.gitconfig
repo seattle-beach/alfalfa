@@ -43,5 +43,5 @@
 [credential]
 	helper =
 	helper = cache --timeout 14400
-[git-together "authors"]
-	ac = "Alpha Chen; achen@pivotal.io"
+[include]
+  path = .git-together
