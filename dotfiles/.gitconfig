@@ -43,3 +43,5 @@
 [credential]
 	helper =
 	helper = cache --timeout 14400
+[include]
+  path = .git-together
