@@ -44,4 +44,7 @@
 	helper =
 	helper = cache --timeout 14400
 [include]
-  path = .git-together
+	path = .git-together
+[user]
+	name = Pivotal
+	email = pivotal@example.com
