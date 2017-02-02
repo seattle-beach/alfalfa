@@ -2,3 +2,6 @@
 	domain = pivotal.io
 [git-together "authors"]
 	ac = "Alpha Chen; achen"
+	nd = "Noah Denton; ndenton"
+	gv = "Gregg Van Hove; gvanhove"
+	gcm = "Greg Chattin-McNichols; gchattinmcnichols"
