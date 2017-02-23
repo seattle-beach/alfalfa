@@ -62,6 +62,7 @@
         - .gitconfig
         - .gitignore_global
         - .spacemacs
+        - .tmux.conf
 
     - name: Symlink .pairs
       file: src=~/.git-authors dest=~/.pairs state=link
