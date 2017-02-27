@@ -26,13 +26,8 @@
         insertafter: "  config.vm.box = 'cloudfoundry/bosh-lite'"
         line: "  config.ssh.insert_key = false"
 
-    - name: Install Spiff
-      command: /usr/local/bin/brew install spiff.rb
-      args:
-        chdir: ~/workspace/alfalfa/formulae
-
     - name: Suspend Vagrant VirtualBox VMs on logout
-      my_defaults:
+      osx_defaults:
         domain: com.apple.loginwindow
         key: LogoutHook
         type: string
