@@ -11,3 +11,7 @@
     - name: Link Postgres launch agents
       file: src={{ item }} dest=~/Library/LaunchAgents/{{ item | basename }} state=link
       with_items: "{{ postgres_launch_agents.stdout_lines }}"
+
+    - name: Start Postgres launch agents
+      command: launchctl load ~/Library/LaunchAgents/{{ item | basename }}
+      with_items: "{{ postgres_launch_agents.stdout_lines }}"
