@@ -21,7 +21,7 @@
 	push-f = push --force-with-lease
 [core]
 	pager = less -FXRS -x2
-	excludesfile = /Users/pivotal/.gitignore_global
+	excludesfile = ~/.gitignore_global
 [apply]
 	whitespace = nowarn
 [color]
