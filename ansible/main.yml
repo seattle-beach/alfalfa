@@ -77,10 +77,15 @@
         vim-config: ~/.vim
         vim-config/vimrc: ~/.vimrc
 
+    - name: Setup Emacs
+      git:
+        repo: https://github.com/nrxus/rust-emacs-setup
+        dest: ~/.emacs.d
+
     - name: Install Spacemacs
       git:
         repo: https://github.com/syl20bnr/spacemacs
-        dest: ~/.emacs.d
+        dest: ~/.emacs.d/spacemacs
 
     - name: Install Vundle
       git:
