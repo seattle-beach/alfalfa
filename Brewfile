@@ -24,6 +24,7 @@ brew 'pivotal/tap/git-pair'
 brew 'seattle-beach/tap/gi'
 brew 'seattle-beach/tap/git-together'
 brew 'cowsay'
+brew 'cmake'
 
 cask 'flycut'
 cask 'font-hack'
