@@ -118,13 +118,6 @@
     - name: Create LaunchAgents dir
       file: path=~/Library/LaunchAgents state=directory
 
-    - name: Install Rust
-      shell: curl https://sh.rustup.rs -sSf > rust-install && sh rust-install -y && rm rust-install
-
-    - name: Setup Rust
-      script: ~/workspace/alfalfa/rust.sh
-      ignore_errors: yes
-
     - name: Update OS X defaults
       osx_defaults:
         domain: "{{ item.domain | default(omit) }}"

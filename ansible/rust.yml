@@ -1,0 +1,18 @@
+- hosts: all
+  environment:
+    PATH: "/usr/local/bin:{{ ansible_env.HOME  }}/.cargo/bin:{{ ansible_env.PATH }}"
+  tasks:
+    - name: Install Rust
+      shell: curl https://sh.rustup.rs -sSf > rust-install && sh rust-install -y && rm rust-install
+    - name: Install Rust Nightly as Default
+      command: rustup default nightly
+    - name: Add Rust Source
+      command: rustup component add rust-src
+    - name: Install Rustfmt-Nightly
+      command: cargo install rustfmt-nightly -f
+    - name: Install Cargo-Update
+      command: cargo install cargo-update -f
+    - name: Install Racer
+      command: cargo install racer -f
+    - name: Install Clippy
+      command: cargo install clippy -f
