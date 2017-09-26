@@ -108,6 +108,7 @@
       command: brew bundle
       args:
         chdir: ~/workspace/alfalfa
+      ignore_errors: yes
 
     - name: Link Homebrew apps
       command: brew linkapps
