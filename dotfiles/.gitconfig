@@ -8,6 +8,7 @@
 	llog = log --date=local
 	flog = log --pretty=fuller --decorate
 	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+	git = !exec git
 	lol = log --graph --decorate --oneline
 	lola = log --graph --decorate --oneline --all
 	blog = log origin/master... --left-right

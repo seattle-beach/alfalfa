@@ -22,3 +22,7 @@ fi
 
 
 alias bindle=bundle
+alias gbr="git branch"
+alias gci="git commit"
+alias gco="git checkout"
+alias gst="git status"
