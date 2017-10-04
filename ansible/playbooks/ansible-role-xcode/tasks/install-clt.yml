@@ -1,0 +1,16 @@
+---
+- name: Enable apps to control the computer
+  shell: sqlite3  "/library/application support/com.apple.tcc/tcc.db" 'INSERT INTO "access" VALUES("kTCCServiceAccessibility","/usr/libexec/sshd-keygen-wrapper",1,1,1,NULL,NULL);'
+  become: yes
+  ignore_errors: yes
+
+- name: Copy install_xcode.sh script
+  copy: src=install_xcode.sh dest=/tmp/ mode=0755
+
+- name: Install xcode
+  shell: /tmp/install_xcode.sh
+  args:
+    executable: /bin/bash
+  register: command_result
+  failed_when: "'Choose an option in the dialog to download the command line developer tools' in command_result.stderr"
+  changed_when: False

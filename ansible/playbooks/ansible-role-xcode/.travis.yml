@@ -1,0 +1,46 @@
+---
+sudo: required
+
+matrix:
+  allow_failures:
+    - os: osx
+
+os: 
+  - linux
+  - osx
+
+env:
+  - distribution: ubuntu
+    version: 14.04
+    init: /sbin/init
+    run_opts: ""
+    playbook: test.yml
+
+services:
+  - docker
+
+before_install:
+  # Pull container
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo docker pull ${distribution}:${version}; fi
+  # Customize container
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo docker build --rm=true --file=tests/Dockerfile.${distribution}-${version} --tag=${distribution}-${version}:ansible tests; fi
+
+script:
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then container_id=$(mktemp); fi
+  # Run container in detached state
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo docker run --detach --volume="${PWD}":/etc/ansible/roles/role_under_test:ro ${run_opts} ${distribution}-${version}:ansible "${init}" > "${container_id}"; fi
+
+  # Ansible syntax check 
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm ansible-playbook /etc/ansible/roles/role_under_test/tests/${playbook} --syntax-check; fi
+
+  # Test role.
+  #- 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm ansible-playbook /etc/ansible/roles/role_under_test/tests/${playbook}'
+
+  # Test role idempotence.
+  #- 'sudo docker exec "$(cat ${container_id})" ansible-playbook /etc/ansible/roles/role_under_test/tests/${playbook} | grep -q 'changed=0.*failed=0' && (echo 'Idempotence test: pass' && exit 0 || (echo 'Idempotence test: fail' && exit 1)'
+
+  # Clean up
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo docker stop "$(cat ${container_id})"; fi
+
+notifications:
+  webhooks: https://galaxy.ansible.com/api/v1/notifications/
