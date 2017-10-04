@@ -1,0 +1,24 @@
+---
+- hosts: all
+  remote_user: root
+
+  vars_prompt:
+    - name: "macappstore_user"
+      prompt: "Mac Appstore username"
+      private: no
+    - name: "macappstore_password"
+      prompt: "Mac Appstore password"
+      private: yes
+
+  tasks:
+    - name: List installed apps
+      command: "/usr/local/bin/mas list"
+      ignore_errors: true
+      register: installed_apps
+
+    - import_role:
+        name: ansible-role-xcode
+      when: (ansible_os_family == 'Darwin') and
+        (installed_apps is not sequence) or 
+        ((installed_apps is sequence) and
+         (xcode_code not in installed_apps))

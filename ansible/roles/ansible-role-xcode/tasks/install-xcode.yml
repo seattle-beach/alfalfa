@@ -1,15 +1,29 @@
 ---
+- name: Accept Xcode license
+  command: /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -license accept
+  become: yes
+  become_method: sudo
+  ignore_errors: yes
+
 - name: Install Mac App Store script
   homebrew: name='argon/mas/mas' state=present
 
 - name: Signout form AppStore if already signed in
-  shell: "/usr/local/bin/mas signout"
+  command: "/usr/local/bin/mas signout"
 
 - name: Sign in into Mac AppStore
-  shell: "/usr/local/bin/mas signin {{ macappstore_user | quote }} {{ macappstore_password | quote }}"
+  command: "/usr/local/bin/mas signin {{macappstore_user|quote }} {{ macappstore_password | quote }}"
+
+- name: List installed apps
+  command: "/usr/local/bin/mas list"
+  ignore_errors: true
+  register: installed_apps
 
 - name: Install Xcode from AppStore
-  shell: "/usr/local/bin/mas install 497799835"
+  shell: "/usr/local/bin/mas install {{ xcode_code }}"
+  when:
+    - installed_apps is not sequence
+    - xcode_code not in installed_apps
 
 - name: Accept Xcode license
   command: /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -license accept

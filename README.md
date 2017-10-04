@@ -35,6 +35,17 @@ customizing a new install:
 - `java.yml`
 - `ruby.yml`
 - `postgres.yml`
+- `xcode.yml`
+- `arkit.yml`
+
+#### Running a single playbook
+To run an individual playbook, go into the ansible directory and run the ansible command like this:
+
+```
+pushd ~/workspace/alfalfa/ansible
+ansible-playbook arkit.yml --ask-become-pass
+popd
+```
 
 Sierra does not allow modifying `TCC.db` without jumping through significant
 hoops, so you'll need to manually enable apps that require accessibility access

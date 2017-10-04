@@ -1,0 +1,10 @@
+---
+- name: Install ARKit requirements
+  hosts: all
+  remote_user: root
+  tasks:
+    - debug:
+        msg: ARKit
+
+- include: xcode.yml
+    
