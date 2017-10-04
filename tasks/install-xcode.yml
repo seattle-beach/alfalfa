@@ -1,0 +1,33 @@
+---
+- name: Install Mac App Store script
+  homebrew: name='argon/mas/mas' state=present
+
+- name: Signout form AppStore if already signed in
+  shell: "/usr/local/bin/mas signout"
+
+- name: Sign in into Mac AppStore
+  shell: "/usr/local/bin/mas signin {{ macappstore_user | quote }} {{ macappstore_password | quote }}"
+
+- name: Install Xcode from AppStore
+  shell: "/usr/local/bin/mas install 497799835"
+
+- name: Accept Xcode license
+  command: /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -license accept
+  become: yes
+  become_method: sudo
+
+- name: install "additional components" part 1
+  command: /usr/sbin/installer -pkg /Applications/Xcode.app/Contents/Resources/Packages/MobileDevice.pkg -target /
+  become: yes
+  become_method: sudo
+
+- name: install "additional components" part 2
+  command: /usr/sbin/installer -pkg /Applications/Xcode.app/Contents/Resources/Packages/MobileDeviceDevelopment.pkg -target /
+  become: yes
+  become_method: sudo
+
+- name: ensure xcode-select is pointing at xcode
+  command: xcode-select -s /Applications/Xcode.app/Contents/Developer
+  become: yes
+  become_method: sudo
+

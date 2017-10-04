@@ -1,0 +1,11 @@
+---
+# tasks file for xcode
+
+- include: install-clt.yml
+  when: ansible_os_family == 'Darwin'
+
+- include: install-xcode.yml
+  when: ansible_os_family == 'Darwin'
+
+- include: configure.yml
+  when: ansible_os_family == 'Darwin'
