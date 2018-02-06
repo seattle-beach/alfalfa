@@ -26,6 +26,7 @@ brew 'seattle-beach/tap/git-together'
 brew 'cowsay'
 brew 'cmake'
 
+cask 'firefox'
 cask 'flycut'
 cask 'font-hack'
 cask 'font-source-code-pro'
