@@ -1,6 +1,6 @@
 - hosts: all
   tasks:
-    - include: sudo.yml
+    - import_tasks: sudo.yml
 
     - name: Install dependencies
       homebrew_cask: name={{ item }}

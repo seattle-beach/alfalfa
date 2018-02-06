@@ -1,5 +1,5 @@
 - hosts: all
-- include: main.yml
-- include: postgres.yml
-- include: ruby.yml
-- include: java.yml
+- include_playbook: main.yml
+- include_playbook: postgres.yml
+- include_playbook: ruby.yml
+- include_playbook: java.yml

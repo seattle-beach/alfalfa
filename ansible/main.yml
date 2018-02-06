@@ -45,7 +45,7 @@
         pivotal_ide_prefs: pivotal
         "vim-config": pivotal
 
-    - include: sudo.yml
+    - import_tasks: sudo.yml
     - name: Install Homebrew
       shell: /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" < /dev/null
       args:
@@ -111,7 +111,7 @@
     - name: Tap Homebrew Bundle
       homebrew_tap: tap=Homebrew/bundle
 
-    - include: sudo.yml
+    - import_tasks: sudo.yml
     - file:
         path: /usr/local/Caskroom
         state: directory
@@ -219,4 +219,4 @@
         ShiftIt: ShiftIt.app
         Flycut: Flycut.app
 
-- include: ssh.yml
+- include_playbook: ssh.yml

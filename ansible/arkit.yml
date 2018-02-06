@@ -6,5 +6,5 @@
     - debug:
         msg: ARKit
 
-- include: xcode.yml
-    
+- include_playbook: xcode.yml
+
