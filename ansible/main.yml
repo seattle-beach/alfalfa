@@ -219,4 +219,4 @@
         ShiftIt: ShiftIt.app
         Flycut: Flycut.app
 
-- include_playbook: ssh.yml
+- import_playbook: ssh.yml
