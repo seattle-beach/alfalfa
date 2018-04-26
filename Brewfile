@@ -23,7 +23,7 @@ brew 'cloudfoundry/tap/cf-cli'
 brew 'git-duet/tap/git-duet'
 brew 'pivotal/tap/git-pair'
 brew 'seattle-beach/tap/gi'
-brew 'seattle-beach/tap/git-together'
+brew 'pivotal/tap/git-together'
 brew 'cowsay'
 brew 'cmake'
 
