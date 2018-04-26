@@ -101,12 +101,15 @@
         repo: https://github.com/syl20bnr/spacemacs
         dest: ~/.emacs.d/spacemacs
 
-    - name: Install Vundle
-      git:
-        repo: https://github.com/VundleVim/Vundle.vim.git
-        dest: ~/.vim/bundle/Vundle.vim
-    - name: Install Vundle plugins
-      command: vim +PluginInstall +redraw +qall
+    - file:
+        path: ~/.vim/autoload
+        state: directory
+    - name: Download vim-plug
+      get_url:
+        url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+        dest: ~/.vim/autoload/plug.vim
+    - name: Install vim plugins
+      command: vim -c PlugInstall -c quitall
 
     - name: Tap Homebrew Bundle
       homebrew_tap: tap=Homebrew/bundle
