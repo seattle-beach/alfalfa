@@ -127,9 +127,6 @@
         chdir: ~/workspace/alfalfa
       ignore_errors: yes
 
-    - name: Link Homebrew apps
-      command: brew linkapps
-
     - name: Make vim use MacVim
       file: src=/Applications/MacVim.app/Contents/bin/mvim dest=/usr/local/bin/vim state=link
 
