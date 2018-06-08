@@ -91,6 +91,28 @@
         - "fuck.aliases.bash"
         - "osx.aliases.bash"
 
+    - name: Add completion enabled directory for bash-it
+      file: path=~/.bash_it/completion/enabled state=directory
+
+    - name: Add some enabled completion for bash-it
+      file:
+        src="~/.bash_it/completion/available/{{ item }}"
+        dest="~/.bash_it/completion/enabled/{{ item }}"
+        state=link
+      with_items:
+        - "git.completion.bash"
+
+    - name: Add alias plugins directory for bash-it
+      file: path=~/.bash_it/plugins/enabled state=directory
+
+    - name: Add some enabled plugins for bash-it
+      file:
+        src="~/.bash_it/plugins/available/{{ item }}"
+        dest="~/.bash_it/plugins/enabled/{{ item }}"
+        state=link
+      with_items:
+        - "history.plugin.bash"
+
     - name: Setup Emacs
       git:
         repo: https://github.com/nrxus/rust-emacs-setup
