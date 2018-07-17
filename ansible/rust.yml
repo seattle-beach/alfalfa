@@ -8,11 +8,11 @@
       command: rustup default nightly
     - name: Add Rust Source
       command: rustup component add rust-src
-    - name: Install Rustfmt-Nightly
-      command: cargo install rustfmt-nightly -f
+    - name: Add Rustfmt-Preview component to Rustup
+      command: rustup component add rustfmt-preview
+    - name: Add Clippy-Preview Component to Rustup
+      command: rustup component add clippy-preview
     - name: Install Cargo-Update
       command: cargo install cargo-update -f
     - name: Install Racer
       command: cargo install racer -f
-    - name: Install Clippy
-      command: cargo install clippy -f
