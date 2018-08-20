@@ -1,4 +1,4 @@
-export PATH="/usr/local/bin:/usr/local/go/bin/:$HOME/.local/bin:$PATH"
+export PATH="/usr/local/bin:/usr/local/go/bin/:$HOME/.local/bin:$HOME/go/bin:$PATH"
 
 # Path to the bash it configuration
 export BASH_IT=~/.bash_it
