@@ -1,12 +1,17 @@
 #!/usr/bin/env bash
 echo "[defaults]
 host_key_checking = False" > ~/ansible.cfg
-[[ -d /usr/local/Homebrew ]] || /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+
+if hash brew; then
+  echo "Homebrew already installed. Skipping."
+else
+  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+fi
 
 if hash ansible; then
   echo "Ansible already installed. Skipping."
-  else
-    brew install ansible
+else
+  brew install ansible
 fi
 
 [[ -d ~/workspace ]]         || mkdir ~/workspace
