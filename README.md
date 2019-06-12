@@ -19,7 +19,7 @@ ANSIBLE_NOCOWS=1` first.
 ```
 bash <(curl -s https://raw.githubusercontent.com/seattle-beach/alfalfa/master/bootstrap.sh)
 cd ~/workspace/alfalfa/ansible
-ansible-playbook main.yml --ask-pass --ask-become-pass
+ansible-playbook main.yml --ask-become-pass --connection=local
 ```
 
 You will need to type `yes` a couple of times due to SSH `known_hosts`
