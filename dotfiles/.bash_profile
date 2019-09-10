@@ -194,50 +194,6 @@ function clock_char {
     fi
 }
 
-function rvm_version_prompt {
-  if which rvm &> /dev/null; then
-    rvm=$(rvm-prompt) || return
-    if [ -n "$rvm" ]; then
-      echo -e "$RVM_THEME_PROMPT_PREFIX$rvm$RVM_THEME_PROMPT_SUFFIX"
-    fi
-  fi
-}
-
-function rbenv_version_prompt {
-  if which rbenv &> /dev/null; then
-    rbenv=$(rbenv version-name) || return
-    $(rbenv commands | grep -q gemset) && gemset=$(rbenv gemset active 2> /dev/null) && rbenv="$rbenv@${gemset%% *}"
-    if [ $rbenv != "system" ]; then
-      echo -e "$RBENV_THEME_PROMPT_PREFIX$rbenv$RBENV_THEME_PROMPT_SUFFIX"
-    fi
-  fi
-}
-
-function rbfu_version_prompt {
-  if [[ $RBFU_RUBY_VERSION ]]; then
-    echo -e "${RBFU_THEME_PROMPT_PREFIX}${RBFU_RUBY_VERSION}${RBFU_THEME_PROMPT_SUFFIX}"
-  fi
-}
-
-function chruby_version_prompt {
-  if declare -f -F chruby &> /dev/null; then
-    if declare -f -F chruby_auto &> /dev/null; then
-      chruby_auto
-    fi
-
-    ruby_version=$(ruby --version | awk '{print $1, $2;}') || return
-
-    if [[ ! $(chruby | grep '*') ]]; then
-      ruby_version="${ruby_version} (system)"
-    fi
-    echo -e "${CHRUBY_THEME_PROMPT_PREFIX}${ruby_version}${CHRUBY_THEME_PROMPT_SUFFIX}"
-  fi
-}
-
-function ruby_version_prompt {
-  echo -e "$(rbfu_version_prompt)$(rbenv_version_prompt)$(rvm_version_prompt)$(chruby_version_prompt)"
-}
-
 function scm_char {
   scm_prompt_char
   echo -e "$SCM_CHAR"
@@ -254,7 +210,7 @@ function scm_prompt_info {
 }
 
 function prompt_command() {
-    PS1="\n$(clock_char) ${yellow}$(ruby_version_prompt) ${purple}\h ${reset_color}in ${green}\w\n${bold_cyan}$(scm_char)${green}$(scm_prompt_info) ${green}→${reset_color} "
+    PS1="\n$(clock_char) ${purple}\h ${reset_color}in ${green}\w\n${bold_cyan}$(scm_char)${green}$(scm_prompt_info) ${green}→${reset_color} "
 }
 
 
