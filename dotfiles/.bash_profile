@@ -26,25 +26,9 @@ alias gst="git status"
 
 alias ag="ag --skip-vcs-ignore"
 
-
-# 2019-09-10 11:52:09 ☆  |2.5.6| Cherry in ~/workspace/alfalfa/dotfiles
-#± sg |master {1} U:1 ✗| → 
-#
-
-CLOCK_CHAR='☆'
-
-SCM_THEME_PROMPT_DIRTY=" ${red}✗"
-SCM_THEME_PROMPT_CLEAN=" ${bold_green}✓"
-SCM_THEME_PROMPT_PREFIX=" |"
-SCM_THEME_PROMPT_SUFFIX="${green}|"
-
-GIT_THEME_PROMPT_DIRTY=" ${red}✗"
-GIT_THEME_PROMPT_CLEAN=" ${bold_green}✓"
-GIT_THEME_PROMPT_PREFIX=" ${green}|"
-GIT_THEME_PROMPT_SUFFIX="${green}|"
-
-RVM_THEME_PROMPT_PREFIX="|"
-RVM_THEME_PROMPT_SUFFIX="|"
+if [ "$TERMINAL_EMULATOR " = "JetBrains-JediTerm " ]; then
+  export DISABLE_COLORS=1
+fi
 
 
 function prompt_command {
@@ -189,7 +173,6 @@ function git_prompt_vars {
 
 function clock_char {
     if [[ "${THEME_CLOCK_CHECK}" = true ]]; then
-        DATE_STRING=$(date +"%Y-%m-%d %H:%M:%S")
         echo -e "${bold_cyan}$DATE_STRING ${red}$CLOCK_CHAR"
     fi
 }
@@ -208,7 +191,33 @@ function scm_prompt_info {
 }
 
 function prompt_command() {
-    PS1="\n$(clock_char) ${purple}\h ${reset_color}in ${green}\w\n${bold_cyan}$(scm_char)${green}$(scm_prompt_info) ${green}→${reset_color} "
+  CLOCK_CHAR='☆'
+  DATE_STRING=$(date +"%Y-%m-%d %H:%M:%S")
+  SCM_THEME_PROMPT_PREFIX=" |"
+
+  if [ -z "$DISABLE_COLORS" ]; then
+    SCM_THEME_PROMPT_DIRTY=" ${red}✗"
+    SCM_THEME_PROMPT_CLEAN=" ${bold_green}✓"
+    SCM_THEME_PROMPT_SUFFIX="${green}|"
+    
+    GIT_THEME_PROMPT_DIRTY=" ${red}✗"
+    GIT_THEME_PROMPT_CLEAN=" ${bold_green}✓"
+    GIT_THEME_PROMPT_PREFIX=" ${green}|"
+    GIT_THEME_PROMPT_SUFFIX="${green}|"
+
+    PS1="\n${bold_cyan}$DATE_STRING ${red}$CLOCK_CHAR ${purple}\h ${reset_color}in ${green}\w\n${bold_cyan}$(scm_char)${green}$(scm_prompt_info) ${green}→${reset_color} "
+  else
+    SCM_THEME_PROMPT_DIRTY=" ✗"
+    SCM_THEME_PROMPT_CLEAN=" ✓"
+    SCM_THEME_PROMPT_SUFFIX="|"
+    
+    GIT_THEME_PROMPT_DIRTY=" ✗"
+    GIT_THEME_PROMPT_CLEAN=" ✓"
+    GIT_THEME_PROMPT_PREFIX=" |"
+    GIT_THEME_PROMPT_SUFFIX="|"
+
+    PS1="\n$DATE_STRING $CLOCK_CHAR \h $in \w\n$(scm_char)$(scm_prompt_info) → "
+  fi
 }
 
 
