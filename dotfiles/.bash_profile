@@ -9,14 +9,9 @@ source $BASH_IT/bash_it.sh
 export GIT_DUET_ROTATE_AUTHOR=1
 export EDITOR=vim
 
-if command -v direnv &> /dev/null; then
-  eval "$(direnv hook bash)"
-fi
-
 if command -v rbenv &> /dev/null; then
   eval "$(rbenv init -)"
 fi
-
 
 alias bindle=bundle
 alias gbr="git branch"
@@ -29,7 +24,6 @@ alias ag="ag --skip-vcs-ignore"
 if [ "$TERMINAL_EMULATOR " = "JetBrains-JediTerm " ]; then
   export DISABLE_COLORS=1
 fi
-
 
 function prompt_command {
   echo -n 'git|'
@@ -222,3 +216,8 @@ function prompt_command() {
 
 unset PS1
 PROMPT_COMMAND=prompt_command
+
+# The direnv hook modifies PROMPT_COMMAND, so it needs to go after anything that sets PROMPT_COMMAND.
+if command -v direnv &> /dev/null; then
+  eval "$(direnv hook bash)"
+fi
