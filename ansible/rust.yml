@@ -2,17 +2,23 @@
   environment:
     PATH: "/usr/local/bin:{{ ansible_env.HOME  }}/.cargo/bin:{{ ansible_env.PATH }}"
   tasks:
-    - name: Install Rust
+    - name: Install rust
       shell: curl https://sh.rustup.rs -sSf > rust-install && sh rust-install -y && rm rust-install
-    - name: Install Rust Nightly as Default
-      command: rustup default nightly
-    - name: Add Rust Source
+    - name: Install nightly toolchain
+      command: rustup install nightly
+    - name: Add rust source
       command: rustup component add rust-src
-    - name: Add Rustfmt-Preview component to Rustup
-      command: rustup component add rustfmt-preview
-    - name: Add Clippy-Preview Component to Rustup
-      command: rustup component add clippy-preview
-    - name: Install Cargo-Update
+    - name: Add rustfmt
+      command: rustup component add rustfmt
+    - name: Add clippy
+      command: rustup component add clippy
+    - name: Install racer
+      command: cargo +nightly install racer -f
+    - name: Install cargo-watch
+      command: cargo install cargo-watch -f
+    - name: Install cargo-oudated
+      command: cargo install cargo-outdated -f
+    - name: Install cargo-edit
+      command: cargo install cargo-edit -f
+    - name: Install cargo-update
       command: cargo install cargo-update -f
-    - name: Install Racer
-      command: cargo install racer -f
