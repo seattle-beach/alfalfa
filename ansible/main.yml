@@ -54,6 +54,7 @@
     - name: Symlink config files
       file: src=~/workspace/alfalfa/dotfiles/{{ item }} dest=~/{{ item }} state=link
       with_items:
+        - .zshrc
         - .bash_profile
         - .bundle
         - .gemrc
