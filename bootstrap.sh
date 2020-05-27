@@ -14,5 +14,11 @@ else
   brew install ansible
 fi
 
+if hash sshpass; then
+  echo "sshpass already installed. Skipping."
+else
+  brew install http://git.io/sshpass.rb
+fi
+
 [[ -d ~/workspace ]]         || mkdir ~/workspace
 [[ -d ~/workspace/alfalfa ]] || git clone https://github.com/seattle-beach/alfalfa.git ~/workspace/alfalfa
