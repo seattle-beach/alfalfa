@@ -3,5 +3,5 @@ bash <(curl -s https://raw.githubusercontent.com/seattle-beach/alfalfa/master/bo
 pushd ~/workspace/alfalfa/ansible
 
 echo "Running main playbook"
-ansible-playbook main.yml --ask-pass --ask-become-pass
+ansible-playbook main.yml --ask-pass --ask-become-pass --connection=local
 popd
