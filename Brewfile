@@ -1,5 +1,5 @@
 tap 'caskroom/cask'
-tap 'caskroom/fonts'
+tap 'homebrew/cask-fonts'
 tap 'cloudfoundry/tap'
 tap 'git-duet/tap'
 tap 'homebrew/services'
