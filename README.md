@@ -69,3 +69,15 @@ cd alfalfa/ansible
 echo HOST > hosts
 ansible-playbook main.yml --ask-pass --ask-become-pass
 ```
+
+# Troubleshooting
+
+`fatal: [localhost]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh: ssh: connect to host localhost port 22: Connection refused", "unreachable": true}`
+
+Append `--connection=local` to the playbook runner. So, instead of 
+
+`ansible-playbook main.yml --ask-pass --ask-become-pass`
+
+use
+
+`ansible-playbook main.yml --ask-pass --ask-become-pass --connection=local`
