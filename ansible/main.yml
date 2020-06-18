@@ -54,16 +54,17 @@
     - name: Symlink config files
       file: src=~/workspace/alfalfa/dotfiles/{{ item }} dest=~/{{ item }} state=link
       with_items:
-        - .zshrc
         - .bash_profile
         - .bundle
         - .gemrc
         - .git-authors
         - .git-together
+        - .git_templates
         - .gitconfig
         - .gitignore_global
         - .spacemacs
         - .tmux.conf
+        - .zshrc
 
     - name: Symlink .pairs
       file: src=~/.git-authors dest=~/.pairs state=link

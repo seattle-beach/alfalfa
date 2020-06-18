@@ -49,3 +49,5 @@
 [user]
 	name = Pivotal
 	email = pivotal@example.com
+[init]
+	templatedir = ~/.git_templates
