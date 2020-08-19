@@ -1,0 +1,15 @@
+- hosts: all
+
+  tasks:
+    - import_tasks: sudo.yml
+
+    - name: Install node
+      homebrew: name=node
+
+    - name: Install Webstorm
+      homebrew_cask: name=webstorm
+
+    - name: Install Pivotal IDE prefs
+      command: ./bin/ide_prefs --ide=webstorm install
+      args:
+        chdir: ~/workspace/pivotal_ide_prefs/cli
