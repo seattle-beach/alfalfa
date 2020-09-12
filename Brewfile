@@ -28,6 +28,7 @@ brew 'pivotal/tap/git-together'
 brew 'cowsay'
 brew 'cmake'
 brew 'emacs-plus'
+brew 'svn' # required by font-source-code-pro-for-powerline
 
 cask 'firefox'
 cask 'flycut'
