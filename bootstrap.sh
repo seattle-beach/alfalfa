@@ -17,7 +17,7 @@ fi
 if hash sshpass; then
   echo "sshpass already installed. Skipping."
 else
-  brew install http://git.io/sshpass.rb
+    brew install https://raw.githubusercontent.com/kadwanev/bigboybrew/master/Library/Formula/sshpass.rb
 fi
 
 [[ -d ~/workspace ]]         || mkdir ~/workspace
