@@ -115,15 +115,10 @@
       with_items:
         - "history.plugin.bash"
 
-    - name: Setup Emacs
-      git:
-        repo: https://github.com/nrxus/rust-emacs-setup
-        dest: ~/.emacs.d
-
     - name: Install Spacemacs
       git:
         repo: https://github.com/syl20bnr/spacemacs
-        dest: ~/.emacs.d/spacemacs
+        dest: ~/.emacs.d
 
     - file:
         path: ~/.vim/autoload
