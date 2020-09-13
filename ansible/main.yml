@@ -13,6 +13,9 @@
   environment:
     PATH: /usr/local/bin:{{ ansible_env.PATH }}
 
+  roles:
+    - zsh
+
   tasks:
     - name: Ensure that the .ssh directory exists
       file: path=~/.ssh state=directory

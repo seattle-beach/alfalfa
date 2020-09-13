@@ -1,0 +1,64 @@
+---
+- name: check if prezto is already installed
+  stat:
+    path: "~/.zprezto"
+  register: preztoDir
+
+- name: add prezto to make zsh less awful
+  git:
+    repo: https://github.com/sorin-ionescu/prezto.git
+    dest: "~/.zprezto"
+  when: preztoDir.stat.isdir is not defined
+
+- name: check if prezto-contrib is already installed
+  stat:
+    path: "~/.zprezto/contrib"
+  register: preztoContribDir
+
+- name: include prezto-contrib
+  git:
+    repo: https://github.com/belak/prezto-contrib
+    dest: "~/.zprezto/contrib"
+  when: preztoContribDir.stat.isdir is not defined
+
+- name: find prezto dotfiles
+  find:
+    paths: "~/.zprezto/runcoms"
+    pattern: "^.*(?!README).*$"
+    use_regex: yes
+  register: dotfiles
+
+- name: link the prezto dotfiles
+  file:
+    src: "{{ item.path }}"
+    dest: "~/.{{ item.path | basename }}"
+    state: link
+  loop: "{{ dotfiles.files }}"
+  ignore_errors: yes
+
+- name: Install node
+  homebrew: name=node
+
+- name: get the spaceship prompt
+  npm:
+    name: spaceship-prompt
+    global: yes
+
+- name: Check if Terminal profile has been imported
+  command: defaults read com.apple.Terminal "Window Settings"
+  register: terminal_window_settings
+
+- name: Import Terminal profile
+  command: open ~/workspace/alfalfa/dotfiles/Pivotal.zsh.terminal
+  when: terminal_window_settings.stdout.find('Pivotal Zsh') == -1
+
+- name: update the terminal font to match
+  osx_defaults:
+    domain: com.apple.Terminal
+    key: "{{ item }} Window Settings"
+    type: string
+    value: Pivotal Zsh
+  with_items:
+    - Default
+    - Startup
+

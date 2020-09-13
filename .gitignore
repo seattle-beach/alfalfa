@@ -1,3 +1,4 @@
 dotfiles/.bundle/cache
 dotfiles/.bundle/ruby
 \#*\#
+Brewfile.lock.json
