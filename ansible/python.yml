@@ -1,0 +1,158 @@
+- hosts: all
+ 
+  vars:
+    start_mark: ";; BEGIN ANSIBLE MANAGED"
+    python_version: 3.8.5
+
+  tasks:
+
+    - name: Add brew requirements
+      homebrew:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - pyenv
+        - pipenv
+        - openssl
+        - readline
+        - sqlite3
+        - xz
+        - zlib
+        - ispell
+        - ipython
+
+    - name: set add python 3 as global
+      shell: "pyenv install {{ python_version }}"
+      ignore_errors: yes
+
+    - name: set python 3 global
+      shell: "pyenv global {{ python_version }}"
+
+    - stat:
+        path: "~/.bashrc"
+      register: bashrc
+
+    - stat:
+        path: "~/.bash_profile"
+      register: bashProfile
+
+    - stat:
+        path: "~/.zshrc"
+      register: zshrc
+
+    - stat:
+        path: "~/.zprofile"
+      register: zprofile
+
+    - name: add pyenv to bashrc
+      lineinfile:
+        path: "~/.bashrc"
+        line: "{{ item }}"
+        create: yes
+      loop:
+        - export PIPENV_VENV_IN_PROJECT=1
+        - export PYENV_ROOT="$HOME/.pyenv"
+        - export PATH="$PYENV_ROOT/bin:$PATH"
+        - 'if command -v pyenv 1>/dev/null 2>&1; then\n  eval "$(pyenv init -)"\nfi'
+      when: bashrc.stat.exists
+
+    - name: add pyenv to bash profile
+      lineinfile:
+        path: "~/.bash_profile"
+        line: "{{ item }}"
+        create: yes
+      loop:
+        - export PIPENV_VENV_IN_PROJECT=1
+        - export PYENV_ROOT="$HOME/.pyenv"
+        - export PATH="$PYENV_ROOT/bin:$PATH"
+        - 'if command -v pyenv 1>/dev/null 2>&1; then\n  eval "$(pyenv init -)"\nfi'
+      when: not bashrc.stat.exists and bashProfile.stat.exists
+
+    - name: add pyenv to zshrc
+      lineinfile:
+        path: "~/.zshrc"
+        line: "{{ item }}"
+        create: yes
+      loop:
+        - export PIPENV_VENV_IN_PROJECT=1
+        - export PYENV_ROOT="$HOME/.pyenv"
+        - path+=("$PYENV_ROOT" $path)
+        - export PATH
+        - eval "$(pyenv init -)"
+      when: zshrc.stat.exists
+
+    - name: add pyenv to zprofile
+      lineinfile:
+        path: "~/.zsprofile"
+        line: "{{ item }}"
+        create: yes
+      loop:
+        - export PIPENV_VENV_IN_PROJECT=1
+        - export PYENV_ROOT="$HOME/.pyenv"
+        - path+=("$PYENV_ROOT" $path)
+        - export PATH
+        - eval "$(pyenv init -)"
+      when: not zshrc.stat.exists and zprofile.stat.exists
+
+    - name: add pip requirements
+      pip:
+        executable: "~/.pyenv/versions/{{ python_version }}/bin/pip"
+        name:
+          - jedi>=0.13.0
+          - json-rpc>=1.8.1
+          - service_factory>=0.1.5
+          - python-language-server[all]
+          - pyls-isort
+          - pytest
+          - pyls-mypy
+          - pyls-black
+          - flake8
+          - autoflake
+          - importmagic
+          - epc
+          - future
+
+    - name: check for spacemacs
+      stat:
+        path: "~/.spacemacs"
+      register: spacemacs
+
+    - name: ensure lsp layer
+      lineinfile:
+        path: "~/.spacemacs"
+        marker: "     ;; -- {mark} layer lsp"
+        line: lsp
+        insertafter: "{{ start_mark }} LAYERS"
+
+    - name: add the python layer to spacemacs
+      blockinfile:
+        path: "~/.spacemacs"
+        backup: yes
+        marker: "     ;; -- {mark} layer python"
+        block: |
+          (python :variables
+            python-backend 'lsp ; 'anaconda
+            python-lsp-server 'pyls
+            python-test-runner 'pytest
+            python-formatter 'black
+            python-format-on-save t ; might cause slowness
+            python-save-before-test t
+            python-pipenv-activate t
+            python-sort-imports-on-save t)
+        insertafter: "{{ start_mark }} LAYERS"
+      when: spacemacs.stat.exists
+
+    - name: set python user-init settings
+      blockinfile:
+        path: "~/.spacemacs"
+        backup: yes
+        marker: "     ;; -- {mark} user-init python"
+        block: |
+          (setenv "PATH"
+                  "~/.pyenv/shims"
+                  (getenv "PATH"))
+
+          (setq python-shell-interpreter "python3")
+          (setq python-shell-exec-path '("~/.pyenv/shims/"))
+        insertafter: "{{ start_mark }} user-init"
+      when: spacemacs.stat.exists
