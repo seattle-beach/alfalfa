@@ -9,6 +9,10 @@ if command -v direnv &> /dev/null; then
   eval "$(direnv hook zsh)"
 fi
 
+if command -v pyenv &> /dev/null; then
+  eval "$(pyenv init -)"
+fi
+
 alias bindle=bundle
 
 alias ag="ag --skip-vcs-ignore"
