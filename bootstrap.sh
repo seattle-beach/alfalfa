@@ -8,7 +8,7 @@ host_key_checking = False" > ~/ansible.cfg
 if hash brew 2> /dev/null; then
   echo "Homebrew already installed. Skipping."
 else
-  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 fi
 
 if hash ansible; then
