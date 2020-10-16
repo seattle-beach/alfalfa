@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
+
+set -e -o pipefail
+
 echo "[defaults]
 host_key_checking = False" > ~/ansible.cfg
 
-if hash brew; then
+if hash brew 2> /dev/null; then
   echo "Homebrew already installed. Skipping."
 else
   /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
