@@ -30,7 +30,6 @@ brew 'cmake'
 brew 'emacs-plus'
 brew 'svn' # required by font-source-code-pro-for-powerline
 
-cask 'firefox'
 cask 'flycut'
 cask 'font-hack'
 cask 'font-source-code-pro'
@@ -43,5 +42,4 @@ cask 'iterm2'
 cask 'macvim'
 cask 'postman'
 cask 'shiftit'
-cask 'slack'
 cask 'sublime-text'
