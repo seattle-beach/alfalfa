@@ -153,6 +153,9 @@
         chdir: ~/workspace/alfalfa
       ignore_errors: yes
 
+    - name: Install Bundler for the default Ruby
+      command: gem install --user-install bundler
+
     - name: Make vim use MacVim
       file: src=/Applications/MacVim.app/Contents/bin/mvim dest=/usr/local/bin/vim state=link
 

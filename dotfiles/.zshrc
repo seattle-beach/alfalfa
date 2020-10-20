@@ -1,3 +1,4 @@
+export PATH=$HOME/.gem/ruby/2.6.0/bin:$PATH  # for bundler
 export GIT_DUET_ROTATE_AUTHOR=1
 export EDITOR=vim
 
