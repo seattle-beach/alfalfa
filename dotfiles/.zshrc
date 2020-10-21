@@ -1,6 +1,5 @@
 export PATH=$HOME/.gem/ruby/2.6.0/bin:$PATH  # for bundler
 export GIT_DUET_ROTATE_AUTHOR=1
-export EDITOR=vim
 
 if command -v rbenv &> /dev/null; then
   eval "$(rbenv init -)"
@@ -31,3 +30,8 @@ export NVM_DIR="$HOME/.nvm"
 
 alias k=kubectl
 alias kc=kubectl
+
+# Customizations that shouldn't be shared between machines go in .zshrc.local
+# E.g if you prefer vim over nano, set both EDITOR and VISUAL to vim
+# in .zshrc.local, not here.
+[ -f "$HOME/.zshrc.local" ] && . "$HOME/.zshrc.local"
