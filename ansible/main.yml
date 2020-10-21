@@ -234,13 +234,11 @@
       become: yes
       become_user: "{{ ansible_env.USER }}"
       with_items:
-        - Flycut
         - ShiftIt
 
     - name: Start OS X apps
       shell: pgrep "{{ item.key }}" || open -a "{{ item.value }}"
       with_dict:
         ShiftIt: ShiftIt.app
-        Flycut: Flycut.app
 
 - import_playbook: ssh.yml
