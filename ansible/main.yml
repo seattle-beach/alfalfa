@@ -169,11 +169,6 @@
         type: "{{ item.type }}"
         value: "{{ item.value }}"
       with_items:
-        - # Autohide the Dock
-          domain: com.apple.dock
-          key: autohide
-          type: bool
-          value: true
         - # Put the Dock on the left
           domain: com.apple.dock
           key: orientation
