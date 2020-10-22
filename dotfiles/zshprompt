@@ -11,6 +11,17 @@ zsh_gitprompt() {
     return 0
   fi
 
+  # If we're merging or rebasing, show only that information.
+  if git rev-parse MERGE_HEAD > /dev/null 2>&1; then
+    echo "|${COLOR_RED}MERGING${COLOR_RESET}| "
+    return 0
+  fi
+
+  if git rev-parse REBASE_HEAD > /dev/null 2>&1; then
+    echo "|${COLOR_RED}REBASING${COLOR_RESET}| "
+    return 0
+  fi
+
   if [ -z "$gitstatus" ]; then
     # No changes
     statuspart="${COLOR_GREEN}✓${COLOR_RESET}"
