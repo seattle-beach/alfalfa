@@ -6,7 +6,7 @@ zsh_gitprompt() {
   COLOR_GREEN="%{\e[0;32m%}"
   COLOR_RESET="%{\u001b[0m%}"
 
-  if ! gitstatus=$(git status --porcelain 2> /dev/null); then
+  if ! gitstatus=$(git status --porcelain -b 2> /dev/null); then
     # Not a git repo
     return 0
   fi
@@ -22,13 +22,24 @@ zsh_gitprompt() {
     return 0
   fi
 
-  if [ -z "$gitstatus" ]; then
-    # No changes
-    statuspart="${COLOR_GREEN}✓${COLOR_RESET}"
-  else
+  # If the status includes anything other than branch headers,
+  # there are uncommitted changes.
+  if echo "$gitstatus" | grep '^[^#]' > /dev/null; then
     # Some changes
     statuspart="${COLOR_RED}x${COLOR_RESET}"
+  else
+    # No changes
+    statuspart="${COLOR_GREEN}✓${COLOR_RESET}"
   fi
+
+  if [ "$gitstatus" -regex-match '^#.+ahead ([0-9]+)' ]; then
+    aheadbehindpart=" ↑$match"
+  elif [ "$gitstatus" -regex-match '^#.+behind ([0-9]+)' ]; then
+    aheadbehindpart=" ↓$match"
+  else
+    aheadbehindpart=""
+  fi
+
 
   if branch=$(git symbolic-ref -q HEAD); then
     branchpart="${branch#refs/heads/}"
@@ -36,7 +47,7 @@ zsh_gitprompt() {
     branchpart="(detached)"
   fi
 
-  echo "|${branchpart} ${statuspart}| "
+  echo "|${branchpart}${aheadbehindpart} ${statuspart}| "
 }
 
 setopt prompt_subst
