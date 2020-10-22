@@ -29,4 +29,5 @@ zsh_gitprompt() {
 }
 
 setopt prompt_subst
-PS1='${PWD/$HOME/~} $(zsh_gitprompt)%# '
+newline=$'\n'
+PS1='${newline}%m in ${PWD/$HOME/~}${newline}$(zsh_gitprompt)%# '
