@@ -2,20 +2,30 @@ zsh_gitprompt() {
   # Note: When changing these colors, be sure to test for adequate contrast
   # on both light and dark backgrounds! Don't assume that everyone does or
   # can use a dark background, or can easily read low contrast text.
-  local COLOR_RED="\e[0;31m"
-  local COLOR_GREEN="\e[0;32m"
-  local COLOR_RESET="\u001b[0m"
+  COLOR_RED="\e[0;31m"
+  COLOR_GREEN="\e[0;32m"
+  COLOR_RESET="\u001b[0m"
 
   if ! gitstatus=$(git status --porcelain 2> /dev/null); then
     # Not a git repo
-    echo " "
-  elif [ -z "$gitstatus" ]; then
+    return 0
+  fi
+
+  if [ -z "$gitstatus" ]; then
     # No changes
-    echo "|${COLOR_GREEN}✓${COLOR_RESET}| "
+    statuspart="${COLOR_GREEN}✓${COLOR_RESET}"
   else
     # Some changes
-    echo "|${COLOR_RED}x${COLOR_RESET}| "
+    statuspart="${COLOR_RED}x${COLOR_RESET}"
   fi
+
+  if branch=$(git symbolic-ref -q HEAD); then
+    branchpart="${branch#refs/heads/}"
+  else
+    branchpart="(detached)"
+  fi
+
+  echo "|${branchpart} ${statuspart}| "
 }
 
 setopt prompt_subst
