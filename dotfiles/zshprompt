@@ -2,9 +2,9 @@ zsh_gitprompt() {
   # Note: When changing these colors, be sure to test for adequate contrast
   # on both light and dark backgrounds! Don't assume that everyone does or
   # can use a dark background, or can easily read low contrast text.
-  COLOR_RED="\e[0;31m"
-  COLOR_GREEN="\e[0;32m"
-  COLOR_RESET="\u001b[0m"
+  COLOR_RED="%{\e[0;31m%}"
+  COLOR_GREEN="%{\e[0;32m%}"
+  COLOR_RESET="%{\u001b[0m%}"
 
   if ! gitstatus=$(git status --porcelain 2> /dev/null); then
     # Not a git repo
