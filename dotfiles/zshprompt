@@ -32,9 +32,9 @@ zsh_gitprompt() {
     statuspart="${COLOR_GREEN}✓${COLOR_RESET}"
   fi
 
-  if [ "$gitstatus" -regex-match '^#.+ahead ([0-9]+)' ]; then
+  if [[ "$gitstatus" =~ '^#.+ahead ([0-9]+)' ]]; then
     aheadbehindpart=" ↑$match"
-  elif [ "$gitstatus" -regex-match '^#.+behind ([0-9]+)' ]; then
+  elif [[ "$gitstatus" =~ '^#.+behind ([0-9]+)' ]]; then
     aheadbehindpart=" ↓$match"
   else
     aheadbehindpart=""
