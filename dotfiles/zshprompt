@@ -17,7 +17,7 @@ zsh_gitprompt() {
     return 0
   fi
 
-  if git rev-parse REBASE_HEAD > /dev/null 2>&1; then
+  if git rebase --show-current-patch > /dev/null 2>&1; then
     echo "|${COLOR_RED}REBASING${COLOR_RESET}| "
     return 0
   fi
