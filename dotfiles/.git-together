@@ -1,5 +1,5 @@
 [git-together]
-	domain = pivotal.io
+	domain = vmware.com
 [git-together "authors"]
   aa = "Aditya Anchuri; aanchuri"
   ac = "Alpha Chen; achen"
@@ -10,7 +10,7 @@
   cd = "Catherine Davie; cdavie"
   eg = "Emily Gordon; egordon"
   gcm = "Greg Chattin-McNichols; gchattinmcnichols"
-  gv = "Gregg Van Hove; gvanhove"
+  gv = "Gwendolyn Van Hove; gvanhove"
   if = "Ian Fisher; loktar@gmail.com"
   jz = "Jake Zingler; jzingler"
   ld = "Liz Dahlstrom; edahlstrom"
