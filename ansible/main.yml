@@ -234,11 +234,11 @@
       become: yes
       become_user: "{{ ansible_env.USER }}"
       with_items:
-        - ShiftIt
+        - Rectangle
 
     - name: Start OS X apps
       shell: pgrep "{{ item.key }}" || open -a "{{ item.value }}"
       with_dict:
-        ShiftIt: ShiftIt.app
+        Rectangle: Rectangle.app
 
 - import_playbook: ssh.yml
