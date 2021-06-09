@@ -6,7 +6,6 @@
   vars:
     repos:
       - alfalfa
-      - bash-it
       - pivotal_ide_prefs
       - vim-config
 
@@ -44,7 +43,6 @@
         chdir: ~/workspace/{{ item.key }}
       ignore_errors: yes
       with_dict:
-        "bash-it": Bash-it
         pivotal_ide_prefs: pivotal
         "vim-config": pivotal
 
@@ -60,7 +58,6 @@
         dest: "~/{{ item }}"
         state: link
       loop:
-        - .bash_profile
         - .bundle
         - .gemrc
         - .git-authors
@@ -82,45 +79,8 @@
     - name: Symlink child repositories
       file: src=~/workspace/{{ item.key }} dest={{ item.value }} state=link
       with_dict:
-        bash-it: ~/.bash_it
         vim-config: ~/.vim
         vim-config/vimrc: ~/.vimrc
-
-    - name: Add alias enabled directory for bash-it
-      file: path=~/.bash_it/aliases/enabled state=directory
-
-    - name: Add some enabled aliases for bash-it
-      file:
-        src="~/.bash_it/aliases/available/{{ item }}"
-        dest="~/.bash_it/aliases/enabled/{{ item }}"
-        state=link
-      with_items:
-        - "git.aliases.bash"
-        - "general.aliases.bash"
-        - "fuck.aliases.bash"
-        - "osx.aliases.bash"
-
-    - name: Add completion enabled directory for bash-it
-      file: path=~/.bash_it/completion/enabled state=directory
-
-    - name: Add some enabled completion for bash-it
-      file:
-        src="~/.bash_it/completion/available/{{ item }}"
-        dest="~/.bash_it/completion/enabled/{{ item }}"
-        state=link
-      with_items:
-        - "git.completion.bash"
-
-    - name: Add alias plugins directory for bash-it
-      file: path=~/.bash_it/plugins/enabled state=directory
-
-    - name: Add some enabled plugins for bash-it
-      file:
-        src="~/.bash_it/plugins/available/{{ item }}"
-        dest="~/.bash_it/plugins/enabled/{{ item }}"
-        state=link
-      with_items:
-        - "history.plugin.bash"
 
     - name: Install Spacemacs
       git:
