@@ -32,7 +32,11 @@ export NVM_DIR="$HOME/.nvm"
 alias k=kubectl
 alias kc=kubectl
 
+# tell zsh to use the completion setup for the git when using git-together
+compdef git-together=git
+
 # Customizations that shouldn't be shared between machines go in .zshrc.local
 # E.g if you prefer vim over nano, set both EDITOR and VISUAL to vim
 # in .zshrc.local, not here.
 [ -f "$HOME/.zshrc.local" ] && . "$HOME/.zshrc.local"
+
