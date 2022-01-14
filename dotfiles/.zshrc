@@ -33,6 +33,8 @@ alias k=kubectl
 alias kc=kubectl
 
 # tell zsh to use the completion setup for the git when using git-together
+autoload -U compinit
+compinit
 compdef git-together=git
 
 # Customizations that shouldn't be shared between machines go in .zshrc.local
